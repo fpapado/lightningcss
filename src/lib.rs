@@ -14116,6 +14116,57 @@ mod tests {
   }
 
   #[test]
+  fn test_relative_color_minimal() {
+    fn test(input: &str, output: &str) {
+      let output = CssColor::parse_string(output)
+        .unwrap()
+        .to_css_string(PrinterOptions {
+          minify: true,
+          ..PrinterOptions::default()
+        })
+        .unwrap();
+      minify_test(
+        &format!(".foo {{ color: {} }}", input),
+        &format!(".foo{{color:{}}}", output),
+      );
+    }
+
+    // Test that numeric equivalents are parsed as expected
+    test("lab(53.9252 45.7516 23.1557)", "lab(53.9252% 45.7516 23.1557)");
+    test("lch(53.9252 51.2776 26.8448)", "lch(53.9252% 51.2776 26.8448)");
+    test("oklab(0.615441 .133439 .0545326)", "oklab(61.5441% .133439 .0545326)");
+    test("oklch(0.615441 .133439 .0545326)", "oklch(61.5441% .144152 22.2284)");
+
+    // Relative syntax calculations
+    // In lab and lch, l is [0,100], and calc() reflects that
+    test("lab(from indianred calc(l + 10) a b)", "lab(63.9252% 45.7516 23.1557)");
+    test("lch(from indianred calc(l + 10) c h)", "lch(63.9252% 51.2776 26.8448)");
+    // NOTE: This is a breaking change from the previous version that treated channels as percentages
+    // test("lch(from indianred calc(l + 10%) c h)", "lch(63.9252% 51.2776 26.8448)");
+    test("lab(from indianred calc(l * 1.1) a b)", "lab(59.3178% 45.7516 23.1557)");
+    test("lch(from indianred calc(l * 1.1) c h)", "lch(59.3178% 51.2776 26.8448)");
+    test("lab(from indianred calc(l * .8) a b)", "lab(43.1402% 45.7516 23.1557)");
+
+    // In oklab and oklch, l is [0,1], and calc() reflects that
+    test(
+      "oklab(from indianred calc(l + 0.1) a b)",
+      "oklab(71.5441% .133439 .0545326)",
+    );
+    test(
+      "oklch(from indianred calc(l + 0.1) c h)",
+      "oklch(71.5441% .144152 22.2284)",
+    );
+    test(
+      "oklab(from indianred calc(l * 1.1) a b)",
+      "oklab(67.69851% .133439 .0545326)",
+    );
+    test(
+      "oklch(from indianred calc(l * 1.1) c h)",
+      "oklch(67.69851% .144152 22.2284)",
+    );
+  }
+
+  #[test]
   fn test_relative_color() {
     fn test(input: &str, output: &str) {
       let output = CssColor::parse_string(output)
