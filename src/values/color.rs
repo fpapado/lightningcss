@@ -831,7 +831,7 @@ fn parse_color_function<'i, 't>(input: &mut Parser<'i, 't>) -> Result<CssColor, 
       Ok(CssColor::LAB(Box::new(lab)))
     },
     "oklab" => {
-      let (l, a, b, alpha) = parse_lab::<OKLAB>(input, &mut parser)?;
+      let (l, a, b, alpha) = parse_oklab::<OKLAB>(input, &mut parser)?;
       let lab = LABColor::OKLAB(OKLAB { l, a, b, alpha });
       Ok(CssColor::LAB(Box::new(lab)))
     },
@@ -841,7 +841,7 @@ fn parse_color_function<'i, 't>(input: &mut Parser<'i, 't>) -> Result<CssColor, 
       Ok(CssColor::LAB(Box::new(lab)))
     },
     "oklch" => {
-      let (l, c, h, alpha) = parse_lch::<OKLCH>(input, &mut parser)?;
+      let (l, c, h, alpha) = parse_oklch::<OKLAB>(input, &mut parser)?;
       let lab = LABColor::OKLCH(OKLCH { l, c, h, alpha });
       Ok(CssColor::LAB(Box::new(lab)))
     },
@@ -870,7 +870,7 @@ fn parse_color_function<'i, 't>(input: &mut Parser<'i, 't>) -> Result<CssColor, 
   }
 }
 
-/// Parses the lab() and oklab() functions.
+/// Parses the lab() function.
 #[inline]
 fn parse_lab<'i, 't, T: From<CssColor> + ColorSpace>(
   input: &mut Parser<'i, 't>,
@@ -880,8 +880,14 @@ fn parse_lab<'i, 't, T: From<CssColor> + ColorSpace>(
   let res = input.parse_nested_block(|input| {
     parser.parse_relative::<T>(input)?;
 
-    // f32::max() does not propagate NaN, so use clamp for now until f32::maximum() is stable.
-    let l = parser.parse_percentage(input)?.clamp(0.0, f32::MAX);
+    // The l component is either a percentage or a number [0,100], clamped at parse time
+    let l = match parser.parse_number_or_percentage(input)? {
+      NumberOrPercentage::Number { value } => value,
+      // Scale the percentage unit value, which is otherwise [0,1]
+      NumberOrPercentage::Percentage { unit_value } => unit_value * 100.0,
+    }
+    .clamp(0.0, 100.0);
+
     let a = parser.parse_number(input)?;
     let b = parser.parse_number(input)?;
     let alpha = parse_alpha(input, parser)?;
@@ -892,7 +898,34 @@ fn parse_lab<'i, 't, T: From<CssColor> + ColorSpace>(
   Ok(res)
 }
 
-/// Parses the lch() and oklch() functions.
+/// Parses the oklab() function.
+#[inline]
+fn parse_oklab<'i, 't, T: From<CssColor> + ColorSpace>(
+  input: &mut Parser<'i, 't>,
+  parser: &mut ComponentParser,
+) -> Result<(f32, f32, f32, f32), ParseError<'i, ParserError<'i>>> {
+  // https://www.w3.org/TR/css-color-4/#funcdef-lab
+  let res = input.parse_nested_block(|input| {
+    parser.parse_relative::<T>(input)?;
+
+    // The l component is either a percentage or a number [0,1], clamped at parse time
+    let l = match parser.parse_number_or_percentage(input)? {
+      NumberOrPercentage::Number { value } => value,
+      NumberOrPercentage::Percentage { unit_value } => unit_value,
+    }
+    .clamp(0.0, 1.0);
+
+    let a = parser.parse_number(input)?;
+    let b = parser.parse_number(input)?;
+    let alpha = parse_alpha(input, parser)?;
+
+    Ok((l, a, b, alpha))
+  })?;
+
+  Ok(res)
+}
+
+/// Parses the lch() function.
 #[inline]
 fn parse_lch<'i, 't, T: From<CssColor> + ColorSpace>(
   input: &mut Parser<'i, 't>,
@@ -910,7 +943,49 @@ fn parse_lch<'i, 't, T: From<CssColor> + ColorSpace>(
       }
     }
 
-    let l = parser.parse_percentage(input)?.clamp(0.0, f32::MAX);
+    // The l component is either a percentage or a number [0,100], clamped at parse time
+    let l = match parser.parse_number_or_percentage(input)? {
+      NumberOrPercentage::Number { value } => value,
+      // Scale the percentage unit value, which is otherwise [0,1]
+      NumberOrPercentage::Percentage { unit_value } => unit_value * 100.0,
+    }
+    .clamp(0.0, 100.0);
+
+    let c = parser.parse_number(input)?.clamp(0.0, f32::MAX);
+    let h = parse_angle_or_number(input, parser)?;
+    let alpha = parse_alpha(input, parser)?;
+
+    Ok((l, c, h, alpha))
+  })?;
+
+  Ok(res)
+}
+
+/// Parses the oklch() function.
+#[inline]
+fn parse_oklch<'i, 't, T: From<CssColor> + ColorSpace>(
+  input: &mut Parser<'i, 't>,
+  parser: &mut ComponentParser,
+) -> Result<(f32, f32, f32, f32), ParseError<'i, ParserError<'i>>> {
+  // https://www.w3.org/TR/css-color-4/#funcdef-lch
+  let res = input.parse_nested_block(|input| {
+    parser.parse_relative::<T>(input)?;
+    if let Some(from) = &mut parser.from {
+      // Relative angles should be normalized.
+      // https://www.w3.org/TR/css-color-5/#relative-LCH
+      from.components.2 %= 360.0;
+      if from.components.2 < 0.0 {
+        from.components.2 += 360.0;
+      }
+    }
+
+    // The l component is either a percentage or a number [0,1], clamped at parse time
+    let l = match parser.parse_number_or_percentage(input)? {
+      NumberOrPercentage::Number { value } => value,
+      NumberOrPercentage::Percentage { unit_value } => unit_value,
+    }
+    .clamp(0.0, 1.0);
+
     let c = parser.parse_number(input)?.clamp(0.0, f32::MAX);
     let h = parse_angle_or_number(input, parser)?;
     let alpha = parse_alpha(input, parser)?;
@@ -1386,7 +1461,7 @@ define_colorspace! {
   /// A color in the [CIE Lab](https://www.w3.org/TR/css-color-4/#cie-lab) color space.
   pub struct LAB {
     /// The lightness component.
-    l: Percentage,
+    l: Number,
     /// The a component.
     a: Number,
     /// The b component.
@@ -1398,7 +1473,7 @@ define_colorspace! {
   /// A color in the [CIE LCH](https://www.w3.org/TR/css-color-4/#cie-lab) color space.
   pub struct LCH {
     /// The lightness component.
-    l: Percentage,
+    l: Number,
     /// The chroma component.
     c: Number,
     /// The hue component.
@@ -1410,7 +1485,7 @@ define_colorspace! {
   /// A color in the [OKLab](https://www.w3.org/TR/css-color-4/#ok-lab) color space.
   pub struct OKLAB {
     /// The lightness component.
-    l: Percentage,
+    l: Number,
     /// The a component.
     a: Number,
     /// The b component.
@@ -1422,7 +1497,7 @@ define_colorspace! {
   /// A color in the [OKLCH](https://www.w3.org/TR/css-color-4/#ok-lab) color space.
   pub struct OKLCH {
     /// The lightness component.
-    l: Percentage,
+    l: Number,
     /// The chroma component.
     c: Number,
     /// The hue component.

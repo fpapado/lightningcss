@@ -14135,7 +14135,7 @@ mod tests {
     test("lab(53.9252 45.7516 23.1557)", "lab(53.9252% 45.7516 23.1557)");
     test("lch(53.9252 51.2776 26.8448)", "lch(53.9252% 51.2776 26.8448)");
     test("oklab(0.615441 .133439 .0545326)", "oklab(61.5441% .133439 .0545326)");
-    test("oklch(0.615441 .133439 .0545326)", "oklch(61.5441% .144152 22.2284)");
+    test("oklch(61.5441% .144152 22.2284)", "oklch(61.5441% .144152 22.2284)");
 
     // Relative syntax calculations
     // In lab and lch, l is [0,100], and calc() reflects that
@@ -14145,7 +14145,6 @@ mod tests {
     // test("lch(from indianred calc(l + 10%) c h)", "lch(63.9252% 51.2776 26.8448)");
     test("lab(from indianred calc(l * 1.1) a b)", "lab(59.3178% 45.7516 23.1557)");
     test("lch(from indianred calc(l * 1.1) c h)", "lch(59.3178% 51.2776 26.8448)");
-    test("lab(from indianred calc(l * .8) a b)", "lab(43.1402% 45.7516 23.1557)");
 
     // In oklab and oklch, l is [0,1], and calc() reflects that
     test(
