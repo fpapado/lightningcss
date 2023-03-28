@@ -14131,6 +14131,9 @@ mod tests {
       );
     }
 
+    // Test that conversion in other colours does not break
+    test("rgb(from indianred r g b)", "rgb(255, 92, 92)");
+
     // Test that numeric equivalents are parsed as expected
     test("lab(53.9252 45.7516 23.1557)", "lab(53.9252% 45.7516 23.1557)");
     test("lch(53.9252 51.2776 26.8448)", "lch(53.9252% 51.2776 26.8448)");
