@@ -263,7 +263,7 @@ impl ColorFallbackKind {
   pub(crate) fn supports_condition<'i>(&self) -> SupportsCondition<'i> {
     let s = match *self {
       ColorFallbackKind::P3 => "color(display-p3 0 0 0)",
-      ColorFallbackKind::LAB => "lab(0% 0 0)",
+      ColorFallbackKind::LAB => "lab(0 0 0)",
       _ => unreachable!(),
     };
 
@@ -566,15 +566,11 @@ impl RelativeComponentParser {
       names: color.channels(),
       components: color.components(),
       types: color.types(),
-      use_numbers_only_in_calc: true,
+      use_numbers_only_in_calc: false,
     }
   }
 
   fn get_ident(&self, ident: &str, allowed_types: ChannelType) -> Option<f32> {
-    println!(
-      "in get_ident for ident {:?}. available names are {:?}",
-      &ident, &self.names
-    );
     if ident.eq_ignore_ascii_case(self.names.0) && allowed_types.intersects(self.types.0) {
       return Some(self.components.0);
     }
@@ -652,19 +648,14 @@ impl<'i> ColorComponentParser<'i> for RelativeComponentParser {
   }
 
   fn parse_number<'t>(&self, input: &mut Parser<'i, 't>) -> Result<f32, ParseError<'i, Self::Error>> {
-    println!("In relative parse_number");
-    println!("{:?} {:?}", input.current_line(), input.current_source_location());
     if let Ok(value) = input.try_parse(|input| self.parse_ident(input, ChannelType::Number)) {
-      dbg!(&value);
       return Ok(value);
     }
 
     if let Ok(value) = input.try_parse(|input| self.parse_calc(input, ChannelType::Number)) {
-      dbg!(&value);
       return Ok(value);
     }
 
-    println!("Error in relative parse_number");
     Err(input.new_error_for_next_token())
   }
 
@@ -702,14 +693,12 @@ impl<'i> ColorComponentParser<'i> for RelativeComponentParser {
       if let Ok(value) =
         input.try_parse(|input| self.parse_ident(input, ChannelType::Percentage | ChannelType::Number))
       {
-        dbg!(&value);
         return Ok(NumberOrPercentage::Number { value });
       }
 
       if let Ok(value) =
         input.try_parse(|input| self.parse_calc(input, ChannelType::Percentage | ChannelType::Number))
       {
-        dbg!(&value);
         return Ok(NumberOrPercentage::Number { value });
       }
 
@@ -722,24 +711,20 @@ impl<'i> ColorComponentParser<'i> for RelativeComponentParser {
           _ => Err(input.new_custom_error(ParserError::InvalidValue)),
         }
       }) {
-        dbg!("Calc:parse_with Ok", &value);
         return Ok(NumberOrPercentage::Number { value });
       }
 
-      dbg!("Error in relative parse_number_or_percentage");
       Err(input.new_error_for_next_token())
     } else {
       if let Ok(value) =
         input.try_parse(|input| self.parse_ident(input, ChannelType::Percentage | ChannelType::Number))
       {
-        dbg!("parse_ident Ok", &value);
         return Ok(NumberOrPercentage::Percentage { unit_value: value });
       }
 
       if let Ok(value) =
         input.try_parse(|input| self.parse_calc(input, ChannelType::Percentage | ChannelType::Number))
       {
-        dbg!("parse_calc Ok", &value);
         return Ok(NumberOrPercentage::Number { value });
         // return Ok(NumberOrPercentage::Percentage { unit_value: value });
       }
@@ -754,7 +739,6 @@ impl<'i> ColorComponentParser<'i> for RelativeComponentParser {
           _ => Err(input.new_custom_error(ParserError::InvalidValue)),
         }
       }) {
-        dbg!("Calc:parse_with Ok", &value);
         return Ok(NumberOrPercentage::Percentage { unit_value: value.0 });
       }
 
@@ -861,10 +845,8 @@ impl<'i> ColorComponentParser<'i> for ComponentParser {
     }
 
     if let Ok(value) = input.try_parse(CSSNumber::parse) {
-      dbg!(&value);
       Ok(NumberOrPercentage::Number { value })
     } else if let Ok(value) = input.try_parse(Percentage::parse) {
-      dbg!(&value);
       Ok(NumberOrPercentage::Percentage { unit_value: value.0 })
     } else if self.allow_none {
       input.expect_ident_matching("none")?;
@@ -1049,8 +1031,6 @@ fn parse_oklch<'i, 't, T: From<CssColor> + ColorSpace>(
 
     Ok((l, c, h, alpha))
   })?;
-
-  println!("{res:?}");
 
   Ok(res)
 }

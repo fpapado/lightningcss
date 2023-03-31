@@ -85,7 +85,6 @@ mod tests {
         ..PrinterOptions::default()
       })
       .unwrap();
-    dbg!(&res.code, &expected);
     assert_eq!(res.code, expected);
   }
 
@@ -1321,7 +1320,7 @@ mod tests {
         &format!(
           r#"
         .foo {{
-          {}: lab(40% 56.6 39);
+          {}: lab(40 56.6 39);
         }}
       "#,
           prop
@@ -1330,7 +1329,7 @@ mod tests {
           indoc! {r#"
         .foo {{
           {}: #b32323;
-          {}: lab(40% 56.6 39);
+          {}: lab(40 56.6 39);
         }}
       "#},
           prop, prop
@@ -1359,7 +1358,7 @@ mod tests {
         &format!(
           r#"
         .foo {{
-          {}: 2px solid lab(40% 56.6 39);
+          {}: 2px solid lab(40 56.6 39);
         }}
       "#,
           prop
@@ -1368,7 +1367,7 @@ mod tests {
           indoc! {r#"
         .foo {{
           {}: 2px solid #b32323;
-          {}: 2px solid lab(40% 56.6 39);
+          {}: 2px solid lab(40 56.6 39);
         }}
       "#},
           prop, prop
@@ -1397,7 +1396,7 @@ mod tests {
         &format!(
           r#"
         .foo {{
-          {}: var(--border-width) solid lab(40% 56.6 39);
+          {}: var(--border-width) solid lab(40 56.6 39);
         }}
       "#,
           prop
@@ -1408,9 +1407,9 @@ mod tests {
           {}: var(--border-width) solid #b32323;
         }}
 
-        @supports (color: lab(0% 0 0)) {{
+        @supports (color: lab(0 0 0)) {{
           .foo {{
-            {}: var(--border-width) solid lab(40% 56.6 39);
+            {}: var(--border-width) solid lab(40 56.6 39);
           }}
         }}
       "#},
@@ -1426,23 +1425,23 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start-color: lab(40% 56.6 39);
+        border-inline-start-color: lab(40 56.6 39);
       }
     "#,
       indoc! {r#"
       .foo:not(:lang(ae)):not(:lang(ar)):not(:lang(arc)):not(:lang(bcc)):not(:lang(bqi)):not(:lang(ckb)):not(:lang(dv)):not(:lang(fa)):not(:lang(glk)):not(:lang(he)):not(:lang(ku)):not(:lang(mzn)):not(:lang(nqo)):not(:lang(pnb)):not(:lang(ps)):not(:lang(sd)):not(:lang(ug)):not(:lang(ur)):not(:lang(yi)) {
         border-left-color: #b32323;
-        border-left-color: lab(40% 56.6 39);
+        border-left-color: lab(40 56.6 39);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
         border-right-color: #b32323;
-        border-right-color: lab(40% 56.6 39);
+        border-right-color: lab(40 56.6 39);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
         border-right-color: #b32323;
-        border-right-color: lab(40% 56.6 39);
+        border-right-color: lab(40 56.6 39);
       }
     "#},
       Browsers {
@@ -1454,23 +1453,23 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-end-color: lab(40% 56.6 39);
+        border-inline-end-color: lab(40 56.6 39);
       }
     "#,
       indoc! {r#"
       .foo:not(:lang(ae)):not(:lang(ar)):not(:lang(arc)):not(:lang(bcc)):not(:lang(bqi)):not(:lang(ckb)):not(:lang(dv)):not(:lang(fa)):not(:lang(glk)):not(:lang(he)):not(:lang(ku)):not(:lang(mzn)):not(:lang(nqo)):not(:lang(pnb)):not(:lang(ps)):not(:lang(sd)):not(:lang(ug)):not(:lang(ur)):not(:lang(yi)) {
         border-right-color: #b32323;
-        border-right-color: lab(40% 56.6 39);
+        border-right-color: lab(40 56.6 39);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
         border-left-color: #b32323;
-        border-left-color: lab(40% 56.6 39);
+        border-left-color: lab(40 56.6 39);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
         border-left-color: #b32323;
-        border-left-color: lab(40% 56.6 39);
+        border-left-color: lab(40 56.6 39);
       }
     "#},
       Browsers {
@@ -1482,30 +1481,30 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start-color: lab(40% 56.6 39);
-        border-inline-end-color: lch(50.998% 135.363 338);
+        border-inline-start-color: lab(40 56.6 39);
+        border-inline-end-color: lch(50.998 135.363 338);
       }
     "#,
       indoc! {r#"
       .foo:not(:lang(ae)):not(:lang(ar)):not(:lang(arc)):not(:lang(bcc)):not(:lang(bqi)):not(:lang(ckb)):not(:lang(dv)):not(:lang(fa)):not(:lang(glk)):not(:lang(he)):not(:lang(ku)):not(:lang(mzn)):not(:lang(nqo)):not(:lang(pnb)):not(:lang(ps)):not(:lang(sd)):not(:lang(ug)):not(:lang(ur)):not(:lang(yi)) {
         border-left-color: #b32323;
-        border-left-color: lab(40% 56.6 39);
+        border-left-color: lab(40 56.6 39);
         border-right-color: #ee00be;
-        border-right-color: lch(50.998% 135.363 338);
+        border-right-color: lch(50.998 135.363 338);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
         border-left-color: #ee00be;
-        border-left-color: lch(50.998% 135.363 338);
+        border-left-color: lch(50.998 135.363 338);
         border-right-color: #b32323;
-        border-right-color: lab(40% 56.6 39);
+        border-right-color: lab(40 56.6 39);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
         border-left-color: #ee00be;
-        border-left-color: lch(50.998% 135.363 338);
+        border-left-color: lch(50.998 135.363 338);
         border-right-color: #b32323;
-        border-right-color: lab(40% 56.6 39);
+        border-right-color: lab(40 56.6 39);
       }
     "#},
       Browsers {
@@ -1517,27 +1516,27 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start-color: lab(40% 56.6 39);
-        border-inline-end-color: lch(50.998% 135.363 338);
+        border-inline-start-color: lab(40 56.6 39);
+        border-inline-end-color: lch(50.998 135.363 338);
       }
     "#,
       indoc! {r#"
       .foo:not(:lang(ae)):not(:lang(ar)):not(:lang(arc)):not(:lang(bcc)):not(:lang(bqi)):not(:lang(ckb)):not(:lang(dv)):not(:lang(fa)):not(:lang(glk)):not(:lang(he)):not(:lang(ku)):not(:lang(mzn)):not(:lang(nqo)):not(:lang(pnb)):not(:lang(ps)):not(:lang(sd)):not(:lang(ug)):not(:lang(ur)):not(:lang(yi)) {
         border-left-color: #b32323;
         border-left-color: color(display-p3 .643308 .192455 .167712);
-        border-left-color: lab(40% 56.6 39);
+        border-left-color: lab(40 56.6 39);
         border-right-color: #ee00be;
         border-right-color: color(display-p3 .972962 -.362078 .804206);
-        border-right-color: lch(50.998% 135.363 338);
+        border-right-color: lch(50.998 135.363 338);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
         border-left-color: #ee00be;
         border-left-color: color(display-p3 .972962 -.362078 .804206);
-        border-left-color: lch(50.998% 135.363 338);
+        border-left-color: lch(50.998 135.363 338);
         border-right-color: #b32323;
         border-right-color: color(display-p3 .643308 .192455 .167712);
-        border-right-color: lab(40% 56.6 39);
+        border-right-color: lab(40 56.6 39);
       }
     "#},
       Browsers {
@@ -1550,23 +1549,23 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-start: 2px solid lab(40% 56.6 39);
+        border-inline-start: 2px solid lab(40 56.6 39);
       }
     "#,
       indoc! {r#"
       .foo:not(:lang(ae)):not(:lang(ar)):not(:lang(arc)):not(:lang(bcc)):not(:lang(bqi)):not(:lang(ckb)):not(:lang(dv)):not(:lang(fa)):not(:lang(glk)):not(:lang(he)):not(:lang(ku)):not(:lang(mzn)):not(:lang(nqo)):not(:lang(pnb)):not(:lang(ps)):not(:lang(sd)):not(:lang(ug)):not(:lang(ur)):not(:lang(yi)) {
         border-left: 2px solid #b32323;
-        border-left: 2px solid lab(40% 56.6 39);
+        border-left: 2px solid lab(40 56.6 39);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
         border-right: 2px solid #b32323;
-        border-right: 2px solid lab(40% 56.6 39);
+        border-right: 2px solid lab(40 56.6 39);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
         border-right: 2px solid #b32323;
-        border-right: 2px solid lab(40% 56.6 39);
+        border-right: 2px solid lab(40 56.6 39);
       }
     "#},
       Browsers {
@@ -1578,23 +1577,23 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-end: 2px solid lab(40% 56.6 39);
+        border-inline-end: 2px solid lab(40 56.6 39);
       }
     "#,
       indoc! {r#"
       .foo:not(:lang(ae)):not(:lang(ar)):not(:lang(arc)):not(:lang(bcc)):not(:lang(bqi)):not(:lang(ckb)):not(:lang(dv)):not(:lang(fa)):not(:lang(glk)):not(:lang(he)):not(:lang(ku)):not(:lang(mzn)):not(:lang(nqo)):not(:lang(pnb)):not(:lang(ps)):not(:lang(sd)):not(:lang(ug)):not(:lang(ur)):not(:lang(yi)) {
         border-right: 2px solid #b32323;
-        border-right: 2px solid lab(40% 56.6 39);
+        border-right: 2px solid lab(40 56.6 39);
       }
 
       .foo:-webkit-any(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
         border-left: 2px solid #b32323;
-        border-left: 2px solid lab(40% 56.6 39);
+        border-left: 2px solid lab(40 56.6 39);
       }
 
       .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
         border-left: 2px solid #b32323;
-        border-left: 2px solid lab(40% 56.6 39);
+        border-left: 2px solid lab(40 56.6 39);
       }
     "#},
       Browsers {
@@ -1606,7 +1605,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-inline-end: var(--border-width) solid lab(40% 56.6 39);
+        border-inline-end: var(--border-width) solid lab(40 56.6 39);
       }
     "#,
       indoc! {r#"
@@ -1614,9 +1613,9 @@ mod tests {
         border-right: var(--border-width) solid #b32323;
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo:not(:lang(ae)):not(:lang(ar)):not(:lang(arc)):not(:lang(bcc)):not(:lang(bqi)):not(:lang(ckb)):not(:lang(dv)):not(:lang(fa)):not(:lang(glk)):not(:lang(he)):not(:lang(ku)):not(:lang(mzn)):not(:lang(nqo)):not(:lang(pnb)):not(:lang(ps)):not(:lang(sd)):not(:lang(ug)):not(:lang(ur)):not(:lang(yi)) {
-          border-right: var(--border-width) solid lab(40% 56.6 39);
+          border-right: var(--border-width) solid lab(40 56.6 39);
         }
       }
 
@@ -1628,9 +1627,9 @@ mod tests {
         border-left: var(--border-width) solid #b32323;
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo:is(:lang(ae), :lang(ar), :lang(arc), :lang(bcc), :lang(bqi), :lang(ckb), :lang(dv), :lang(fa), :lang(glk), :lang(he), :lang(ku), :lang(mzn), :lang(nqo), :lang(pnb), :lang(ps), :lang(sd), :lang(ug), :lang(ur), :lang(yi)) {
-          border-left: var(--border-width) solid lab(40% 56.6 39);
+          border-left: var(--border-width) solid lab(40 56.6 39);
         }
       }
     "#},
@@ -1928,7 +1927,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 60;
+        border-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 60;
       }
     "#,
       indoc! {r#"
@@ -1936,7 +1935,7 @@ mod tests {
         -webkit-border-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff)) 60;
         -webkit-border-image: -webkit-linear-gradient(#ff0f0e, #7773ff) 60;
         border-image: linear-gradient(#ff0f0e, #7773ff) 60;
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 60;
+        border-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 60;
       }
     "#
       },
@@ -1949,7 +1948,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 60;
+        border-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 60;
       }
     "#,
       indoc! {r#"
@@ -1958,7 +1957,7 @@ mod tests {
         -webkit-border-image: -webkit-linear-gradient(#ff0f0e, #7773ff) 60;
         -moz-border-image: -moz-linear-gradient(#ff0f0e, #7773ff) 60;
         border-image: linear-gradient(#ff0f0e, #7773ff) 60;
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 60;
+        border-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 60;
       }
     "#
       },
@@ -1972,7 +1971,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 60;
+        border-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 60;
       }
     "#,
       indoc! {r#"
@@ -1980,7 +1979,7 @@ mod tests {
         border-image: -webkit-linear-gradient(#ff0f0e, #7773ff) 60;
         border-image: -moz-linear-gradient(#ff0f0e, #7773ff) 60;
         border-image: linear-gradient(#ff0f0e, #7773ff) 60;
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 60;
+        border-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 60;
       }
     "#
       },
@@ -1994,14 +1993,14 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+        border-image-source: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
       }
     "#,
       indoc! {r#"
       .foo {
         border-image-source: -webkit-linear-gradient(#ff0f0e, #7773ff);
         border-image-source: linear-gradient(#ff0f0e, #7773ff);
-        border-image-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+        border-image-source: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
       }
     "#
       },
@@ -2014,7 +2013,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        border-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) var(--foo);
+        border-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) var(--foo);
       }
     "#,
       indoc! {r#"
@@ -2022,9 +2021,9 @@ mod tests {
         border-image: linear-gradient(#ff0f0e, #7773ff) var(--foo);
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo {
-          border-image: linear-gradient(lab(56.208% 94.4644 98.8928), lab(51% 70.4544 -115.586)) var(--foo);
+          border-image: linear-gradient(lab(56.208 94.4644 98.8928), lab(51 70.4544 -115.586)) var(--foo);
         }
       }
     "#
@@ -2592,11 +2591,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { outline-color: lab(40% 56.6 39) }",
+      ".foo { outline-color: lab(40 56.6 39) }",
       indoc! { r#"
         .foo {
           outline-color: #b32323;
-          outline-color: lab(40% 56.6 39);
+          outline-color: lab(40 56.6 39);
         }
       "#},
       Browsers {
@@ -2606,11 +2605,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { outline: 2px solid lab(40% 56.6 39) }",
+      ".foo { outline: 2px solid lab(40 56.6 39) }",
       indoc! { r#"
         .foo {
           outline: 2px solid #b32323;
-          outline: 2px solid lab(40% 56.6 39);
+          outline: 2px solid lab(40 56.6 39);
         }
       "#},
       Browsers {
@@ -2620,15 +2619,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { outline: var(--width) solid lab(40% 56.6 39) }",
+      ".foo { outline: var(--width) solid lab(40 56.6 39) }",
       indoc! { r#"
         .foo {
           outline: var(--width) solid #b32323;
         }
 
-        @supports (color: lab(0% 0 0)) {
+        @supports (color: lab(0 0 0)) {
           .foo {
-            outline: var(--width) solid lab(40% 56.6 39);
+            outline: var(--width) solid lab(40 56.6 39);
           }
         }
       "#},
@@ -3737,13 +3736,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        background: lab(51.5117% 43.3777 -29.0443);
+        background: lab(51.5117 43.3777 -29.0443);
       }
     "#,
       indoc! {r#"
       .foo {
         background: #af5cae;
-        background: lab(51.5117% 43.3777 -29.0443);
+        background: lab(51.5117 43.3777 -29.0443);
       }
     "#
       },
@@ -3757,13 +3756,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        background: lab(51.5117% 43.3777 -29.0443) url(foo.png);
+        background: lab(51.5117 43.3777 -29.0443) url(foo.png);
       }
     "#,
       indoc! {r#"
       .foo {
         background: #af5cae url("foo.png");
-        background: lab(51.5117% 43.3777 -29.0443) url("foo.png");
+        background: lab(51.5117 43.3777 -29.0443) url("foo.png");
       }
     "#
       },
@@ -3777,13 +3776,13 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        background: lab(51.5117% 43.3777 -29.0443) linear-gradient(lab(52.2319% 40.1449 59.9171), lab(47.7776% -34.2947 -7.65904));
+        background: lab(51.5117 43.3777 -29.0443) linear-gradient(lab(52.2319 40.1449 59.9171), lab(47.7776 -34.2947 -7.65904));
       }
     "#,
       indoc! {r#"
       .foo {
         background: #af5cae linear-gradient(#c65d07, #00807c);
-        background: lab(51.5117% 43.3777 -29.0443) linear-gradient(lab(52.2319% 40.1449 59.9171), lab(47.7776% -34.2947 -7.65904));
+        background: lab(51.5117 43.3777 -29.0443) linear-gradient(lab(52.2319 40.1449 59.9171), lab(47.7776 -34.2947 -7.65904));
       }
     "#
       },
@@ -6581,11 +6580,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { box-shadow: 12px 12px lab(40% 56.6 39) }",
+      ".foo { box-shadow: 12px 12px lab(40 56.6 39) }",
       indoc! { r#"
         .foo {
           box-shadow: 12px 12px #b32323;
-          box-shadow: 12px 12px lab(40% 56.6 39);
+          box-shadow: 12px 12px lab(40 56.6 39);
         }
       "#},
       Browsers {
@@ -6595,12 +6594,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { box-shadow: 12px 12px lab(40% 56.6 39) }",
+      ".foo { box-shadow: 12px 12px lab(40 56.6 39) }",
       indoc! { r#"
         .foo {
           -webkit-box-shadow: 12px 12px #b32323;
           box-shadow: 12px 12px #b32323;
-          box-shadow: 12px 12px lab(40% 56.6 39);
+          box-shadow: 12px 12px lab(40 56.6 39);
         }
       "#},
       Browsers {
@@ -6610,12 +6609,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { box-shadow: 12px 12px lab(40% 56.6 39), 12px 12px yellow }",
+      ".foo { box-shadow: 12px 12px lab(40 56.6 39), 12px 12px yellow }",
       indoc! { r#"
         .foo {
           -webkit-box-shadow: 12px 12px #b32323, 12px 12px #ff0;
           box-shadow: 12px 12px #b32323, 12px 12px #ff0;
-          box-shadow: 12px 12px lab(40% 56.6 39), 12px 12px #ff0;
+          box-shadow: 12px 12px lab(40 56.6 39), 12px 12px #ff0;
         }
       "#},
       Browsers {
@@ -6672,15 +6671,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { box-shadow: var(--foo) 12px lab(40% 56.6 39) }",
+      ".foo { box-shadow: var(--foo) 12px lab(40 56.6 39) }",
       indoc! { r#"
         .foo {
           box-shadow: var(--foo) 12px #b32323;
         }
 
-        @supports (color: lab(0% 0 0)) {
+        @supports (color: lab(0 0 0)) {
           .foo {
-            box-shadow: var(--foo) 12px lab(40% 56.6 39);
+            box-shadow: var(--foo) 12px lab(40 56.6 39);
           }
         }
       "#},
@@ -9802,11 +9801,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           background: linear-gradient(#ff0f0e, #7773ff);
-          background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -9816,12 +9815,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           background: linear-gradient(#ff0f0e, #7773ff);
           background: linear-gradient(color(display-p3 1 .0000153435 -.00000303562), color(display-p3 .440289 .28452 1.23485));
-          background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -9832,12 +9831,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           background: -webkit-linear-gradient(#ff0f0e, #7773ff);
           background: linear-gradient(#ff0f0e, #7773ff);
-          background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -9847,13 +9846,13 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           background: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff));
           background: -webkit-linear-gradient(#ff0f0e, #7773ff);
           background: linear-gradient(#ff0f0e, #7773ff);
-          background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -9863,10 +9862,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          background: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -9876,10 +9875,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-image: linear-gradient(oklab(59.686% 0.1009 0.1192), oklab(54.0% -0.10 -0.02)); }",
+      ".foo { background-image: linear-gradient(oklab(0.59686 0.1009 0.1192), oklab(0.54 -0.10 -0.02)); }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(lab(52.2319% 40.1449 59.9171), lab(47.7776% -34.2947 -7.65904));
+          background-image: linear-gradient(lab(52.2319 40.1449 59.9171), lab(47.7776 -34.2947 -7.65904));
         }
       "#},
       Browsers {
@@ -9889,11 +9888,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           background-image: linear-gradient(#ff0f0e, #7773ff);
-          background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -9903,12 +9902,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           background-image: linear-gradient(#ff0f0e, #7773ff);
           background-image: linear-gradient(color(display-p3 1 .0000153435 -.00000303562), color(display-p3 .440289 .28452 1.23485));
-          background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -9919,12 +9918,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           background-image: -webkit-linear-gradient(#ff0f0e, #7773ff);
           background-image: linear-gradient(#ff0f0e, #7773ff);
-          background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -9934,13 +9933,13 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff));
           background-image: -webkit-linear-gradient(#ff0f0e, #7773ff);
           background-image: linear-gradient(#ff0f0e, #7773ff);
-          background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -9950,10 +9949,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { background-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          background-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -9963,10 +9962,10 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-image: linear-gradient(oklab(59.686% 0.1009 0.1192), oklab(54.0% -0.10 -0.02)); }",
+      ".foo { background-image: linear-gradient(oklab(0.59686 0.1009 0.1192), oklab(0.54 -0.10 -0.02)); }",
       indoc! { r#"
         .foo {
-          background-image: linear-gradient(lab(52.2319% 40.1449 59.9171), lab(47.7776% -34.2947 -7.65904));
+          background-image: linear-gradient(lab(52.2319 40.1449 59.9171), lab(47.7776 -34.2947 -7.65904));
         }
       "#},
       Browsers {
@@ -10169,13 +10168,13 @@ mod tests {
       r#"@font-palette-values --Cooler {
       font-family: Handover Sans;
       base-palette: 3;
-      override-colors: 1 rgb(43, 12, 9), 3 lch(50.998% 135.363 338);
+      override-colors: 1 rgb(43, 12, 9), 3 lch(50.998 135.363 338);
     }"#,
       indoc! {r#"@font-palette-values --Cooler {
       font-family: Handover Sans;
       base-palette: 3;
       override-colors: 1 #2b0c09, 3 #ee00be;
-      override-colors: 1 #2b0c09, 3 lch(50.998% 135.363 338);
+      override-colors: 1 #2b0c09, 3 lch(50.998 135.363 338);
     }
     "#},
       Browsers {
@@ -10187,7 +10186,7 @@ mod tests {
       r#"@font-palette-values --Cooler {
       font-family: Handover Sans;
       base-palette: 3;
-      override-colors: 1 var(--foo), 3 lch(50.998% 135.363 338);
+      override-colors: 1 var(--foo), 3 lch(50.998 135.363 338);
     }"#,
       indoc! {r#"@font-palette-values --Cooler {
       font-family: Handover Sans;
@@ -10195,11 +10194,11 @@ mod tests {
       override-colors: 1 var(--foo), 3 #ee00be;
     }
 
-    @supports (color: lab(0% 0 0)) {
+    @supports (color: lab(0 0 0)) {
       @font-palette-values --Cooler {
         font-family: Handover Sans;
         base-palette: 3;
-        override-colors: 1 var(--foo), 3 lab(50.998% 125.506 -50.7078);
+        override-colors: 1 var(--foo), 3 lab(50.998 125.506 -50.7078);
       }
     }
     "#},
@@ -11725,15 +11724,15 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        text-decoration: lch(50.998% 135.363 338) underline;
+        text-decoration: lch(50.998 135.363 338) underline;
       }
     "#,
       indoc! {r#"
       .foo {
         -webkit-text-decoration: underline #ee00be;
         text-decoration: underline #ee00be;
-        -webkit-text-decoration: underline lch(50.998% 135.363 338);
-        text-decoration: underline lch(50.998% 135.363 338);
+        -webkit-text-decoration: underline lch(50.998 135.363 338);
+        text-decoration: underline lch(50.998 135.363 338);
       }
     "#},
       Browsers {
@@ -11746,7 +11745,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        text-decoration-color: lch(50.998% 135.363 338);
+        text-decoration-color: lch(50.998 135.363 338);
       }
     "#,
       indoc! {r#"
@@ -11754,9 +11753,9 @@ mod tests {
         -webkit-text-decoration-color: #ee00be;
         -moz-text-decoration-color: #ee00be;
         text-decoration-color: #ee00be;
-        -webkit-text-decoration-color: lch(50.998% 135.363 338);
-        -moz-text-decoration-color: lch(50.998% 135.363 338);
-        text-decoration-color: lch(50.998% 135.363 338);
+        -webkit-text-decoration-color: lch(50.998 135.363 338);
+        -moz-text-decoration-color: lch(50.998 135.363 338);
+        text-decoration-color: lch(50.998 135.363 338);
       }
     "#},
       Browsers {
@@ -11769,7 +11768,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        text-decoration: lch(50.998% 135.363 338) var(--style);
+        text-decoration: lch(50.998 135.363 338) var(--style);
       }
     "#,
       indoc! {r#"
@@ -11777,9 +11776,9 @@ mod tests {
         text-decoration: #ee00be var(--style);
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo {
-          text-decoration: lab(50.998% 125.506 -50.7078) var(--style);
+          text-decoration: lab(50.998 125.506 -50.7078) var(--style);
         }
       }
     "#},
@@ -12095,15 +12094,15 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        text-emphasis: filled lch(50.998% 135.363 338);
+        text-emphasis: filled lch(50.998 135.363 338);
       }
     "#,
       indoc! {r#"
       .foo {
         -webkit-text-emphasis: filled #ee00be;
         text-emphasis: filled #ee00be;
-        -webkit-text-emphasis: filled lch(50.998% 135.363 338);
-        text-emphasis: filled lch(50.998% 135.363 338);
+        -webkit-text-emphasis: filled lch(50.998 135.363 338);
+        text-emphasis: filled lch(50.998 135.363 338);
       }
     "#},
       Browsers {
@@ -12116,15 +12115,15 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        text-emphasis-color: lch(50.998% 135.363 338);
+        text-emphasis-color: lch(50.998 135.363 338);
       }
     "#,
       indoc! {r#"
       .foo {
         -webkit-text-emphasis-color: #ee00be;
         text-emphasis-color: #ee00be;
-        -webkit-text-emphasis-color: lch(50.998% 135.363 338);
-        text-emphasis-color: lch(50.998% 135.363 338);
+        -webkit-text-emphasis-color: lch(50.998 135.363 338);
+        text-emphasis-color: lch(50.998 135.363 338);
       }
     "#},
       Browsers {
@@ -12137,7 +12136,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        text-emphasis: lch(50.998% 135.363 338) var(--style);
+        text-emphasis: lch(50.998 135.363 338) var(--style);
       }
     "#,
       indoc! {r#"
@@ -12145,9 +12144,9 @@ mod tests {
         text-emphasis: #ee00be var(--style);
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo {
-          text-emphasis: lab(50.998% 125.506 -50.7078) var(--style);
+          text-emphasis: lab(50.998 125.506 -50.7078) var(--style);
         }
       }
     "#},
@@ -12182,11 +12181,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { text-shadow: 12px 12px lab(40% 56.6 39) }",
+      ".foo { text-shadow: 12px 12px lab(40 56.6 39) }",
       indoc! { r#"
         .foo {
           text-shadow: 12px 12px #b32323;
-          text-shadow: 12px 12px lab(40% 56.6 39);
+          text-shadow: 12px 12px lab(40 56.6 39);
         }
       "#},
       Browsers {
@@ -12196,12 +12195,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { text-shadow: 12px 12px lab(40% 56.6 39) }",
+      ".foo { text-shadow: 12px 12px lab(40 56.6 39) }",
       indoc! { r#"
         .foo {
           text-shadow: 12px 12px #b32323;
           text-shadow: 12px 12px color(display-p3 .643308 .192455 .167712);
-          text-shadow: 12px 12px lab(40% 56.6 39);
+          text-shadow: 12px 12px lab(40 56.6 39);
         }
       "#},
       Browsers {
@@ -12212,11 +12211,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { text-shadow: 12px 12px lab(40% 56.6 39), 12px 12px yellow }",
+      ".foo { text-shadow: 12px 12px lab(40 56.6 39), 12px 12px yellow }",
       indoc! { r#"
         .foo {
           text-shadow: 12px 12px #b32323, 12px 12px #ff0;
-          text-shadow: 12px 12px lab(40% 56.6 39), 12px 12px #ff0;
+          text-shadow: 12px 12px lab(40 56.6 39), 12px 12px #ff0;
         }
       "#},
       Browsers {
@@ -12226,15 +12225,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { text-shadow: var(--foo) 12px lab(40% 56.6 39) }",
+      ".foo { text-shadow: var(--foo) 12px lab(40 56.6 39) }",
       indoc! { r#"
         .foo {
           text-shadow: var(--foo) 12px #b32323;
         }
 
-        @supports (color: lab(0% 0 0)) {
+        @supports (color: lab(0 0 0)) {
           .foo {
-            text-shadow: var(--foo) 12px lab(40% 56.6 39);
+            text-shadow: var(--foo) 12px lab(40 56.6 39);
           }
         }
       "#},
@@ -12895,12 +12894,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { caret-color: lch(50.998% 135.363 338) }",
+      ".foo { caret-color: lch(50.998 135.363 338) }",
       indoc! { r#"
         .foo {
           caret-color: #ee00be;
           caret-color: color(display-p3 .972962 -.362078 .804206);
-          caret-color: lch(50.998% 135.363 338);
+          caret-color: lch(50.998 135.363 338);
         }
       "#},
       Browsers {
@@ -12911,12 +12910,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { caret: lch(50.998% 135.363 338) block }",
+      ".foo { caret: lch(50.998 135.363 338) block }",
       indoc! { r#"
         .foo {
           caret: #ee00be block;
           caret: color(display-p3 .972962 -.362078 .804206) block;
-          caret: lch(50.998% 135.363 338) block;
+          caret: lch(50.998 135.363 338) block;
         }
       "#},
       Browsers {
@@ -12927,15 +12926,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { caret: lch(50.998% 135.363 338) var(--foo) }",
+      ".foo { caret: lch(50.998 135.363 338) var(--foo) }",
       indoc! { r#"
         .foo {
           caret: #ee00be var(--foo);
         }
 
-        @supports (color: lab(0% 0 0)) {
+        @supports (color: lab(0 0 0)) {
           .foo {
-            caret: lab(50.998% 125.506 -50.7078) var(--foo);
+            caret: lab(50.998 125.506 -50.7078) var(--foo);
           }
         }
       "#},
@@ -13024,13 +13023,13 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { list-style-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { list-style-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           list-style-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff));
           list-style-image: -webkit-linear-gradient(#ff0f0e, #7773ff);
           list-style-image: linear-gradient(#ff0f0e, #7773ff);
-          list-style-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          list-style-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -13040,11 +13039,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { list-style: \"★\" linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { list-style: \"★\" linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           list-style: "★" linear-gradient(#ff0f0e, #7773ff);
-          list-style: "★" linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          list-style: "★" linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -13054,15 +13053,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { list-style: var(--foo) linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { list-style: var(--foo) linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           list-style: var(--foo) linear-gradient(#ff0f0e, #7773ff);
         }
 
-        @supports (color: lab(0% 0 0)) {
+        @supports (color: lab(0 0 0)) {
           .foo {
-            list-style: var(--foo) linear-gradient(lab(56.208% 94.4644 98.8928), lab(51% 70.4544 -115.586));
+            list-style: var(--foo) linear-gradient(lab(56.208 94.4644 98.8928), lab(51 70.4544 -115.586));
           }
         }
       "#},
@@ -13284,92 +13283,92 @@ mod tests {
     minify_test(".foo { color: hwb(194 50% 50%) }", ".foo{color:gray}");
     // minify_test(".foo { color: ActiveText }", ".foo{color:ActiveTet}");
     minify_test(
-      ".foo { color: lab(29.2345% 39.3825 20.0664); }",
-      ".foo{color:lab(29.2345% 39.3825 20.0664)}",
+      ".foo { color: lab(29.2345 39.3825 20.0664); }",
+      ".foo{color:lab(29.2345 39.3825 20.0664)}",
     );
     minify_test(
       ".foo { color: lab(29.2345 39.3825 20.0664); }",
-      ".foo{color:lab(29.2345% 39.3825 20.0664)}",
-    );
-    minify_test(
-      ".foo { color: lab(29.2345% 39.3825 20.0664 / 100%); }",
-      ".foo{color:lab(29.2345% 39.3825 20.0664)}",
+      ".foo{color:lab(29.2345 39.3825 20.0664)}",
     );
     minify_test(
       ".foo { color: lab(29.2345 39.3825 20.0664 / 100%); }",
-      ".foo{color:lab(29.2345% 39.3825 20.0664)}",
+      ".foo{color:lab(29.2345 39.3825 20.0664)}",
     );
     minify_test(
-      ".foo { color: lab(29.2345% 39.3825 20.0664 / 50%); }",
-      ".foo{color:lab(29.2345% 39.3825 20.0664/.5)}",
+      ".foo { color: lab(29.2345 39.3825 20.0664 / 100%); }",
+      ".foo{color:lab(29.2345 39.3825 20.0664)}",
     );
     minify_test(
       ".foo { color: lab(29.2345 39.3825 20.0664 / 50%); }",
-      ".foo{color:lab(29.2345% 39.3825 20.0664/.5)}",
+      ".foo{color:lab(29.2345 39.3825 20.0664/.5)}",
     );
     minify_test(
-      ".foo { color: lch(29.2345% 44.2 27); }",
-      ".foo{color:lch(29.2345% 44.2 27)}",
+      ".foo { color: lab(29.2345 39.3825 20.0664 / 50%); }",
+      ".foo{color:lab(29.2345 39.3825 20.0664/.5)}",
     );
     minify_test(
       ".foo { color: lch(29.2345 44.2 27); }",
-      ".foo{color:lch(29.2345% 44.2 27)}",
+      ".foo{color:lch(29.2345 44.2 27)}",
     );
     minify_test(
-      ".foo { color: lch(29.2345% 44.2 45deg); }",
-      ".foo{color:lch(29.2345% 44.2 45)}",
+      ".foo { color: lch(29.2345 44.2 27); }",
+      ".foo{color:lch(29.2345 44.2 27)}",
     );
     minify_test(
       ".foo { color: lch(29.2345 44.2 45deg); }",
-      ".foo{color:lch(29.2345% 44.2 45)}",
+      ".foo{color:lch(29.2345 44.2 45)}",
     );
     minify_test(
-      ".foo { color: lch(29.2345% 44.2 .5turn); }",
-      ".foo{color:lch(29.2345% 44.2 180)}",
+      ".foo { color: lch(29.2345 44.2 45deg); }",
+      ".foo{color:lch(29.2345 44.2 45)}",
     );
     minify_test(
       ".foo { color: lch(29.2345 44.2 .5turn); }",
-      ".foo{color:lch(29.2345% 44.2 180)}",
+      ".foo{color:lch(29.2345 44.2 180)}",
     );
     minify_test(
-      ".foo { color: lch(29.2345% 44.2 27 / 100%); }",
-      ".foo{color:lch(29.2345% 44.2 27)}",
+      ".foo { color: lch(29.2345 44.2 .5turn); }",
+      ".foo{color:lch(29.2345 44.2 180)}",
     );
     minify_test(
       ".foo { color: lch(29.2345 44.2 27 / 100%); }",
-      ".foo{color:lch(29.2345% 44.2 27)}",
+      ".foo{color:lch(29.2345 44.2 27)}",
     );
     minify_test(
-      ".foo { color: lch(29.2345% 44.2 27 / 50%); }",
-      ".foo{color:lch(29.2345% 44.2 27/.5)}",
+      ".foo { color: lch(29.2345 44.2 27 / 100%); }",
+      ".foo{color:lch(29.2345 44.2 27)}",
     );
     minify_test(
       ".foo { color: lch(29.2345 44.2 27 / 50%); }",
-      ".foo{color:lch(29.2345% 44.2 27/.5)}",
+      ".foo{color:lch(29.2345 44.2 27/.5)}",
     );
     minify_test(
-      ".foo { color: oklab(40.101% 0.1147 0.0453); }",
-      ".foo{color:oklab(40.101% .1147 .0453)}",
+      ".foo { color: lch(29.2345 44.2 27 / 50%); }",
+      ".foo{color:lch(29.2345 44.2 27/.5)}",
     );
     minify_test(
       ".foo { color: oklab(0.40101 0.1147 0.0453); }",
-      ".foo{color:oklab(40.101% .1147 .0453)}",
+      ".foo{color:oklab(0.40101 .1147 .0453)}",
     );
     minify_test(
-      ".foo { color: oklch(40.101% 0.12332 21.555); }",
-      ".foo{color:oklch(40.101% .12332 21.555)}",
+      ".foo { color: oklab(0.40101 0.1147 0.0453); }",
+      ".foo{color:oklab(0.40101 .1147 .0453)}",
     );
     minify_test(
       ".foo { color: oklch(0.40101 0.12332 21.555); }",
-      ".foo{color:oklch(40.101% .12332 21.555)}",
+      ".foo{color:oklch(0.40101 .12332 21.555)}",
     );
     minify_test(
-      ".foo { color: oklch(40.101% 0.12332 .5turn); }",
-      ".foo{color:oklch(40.101% .12332 180)}",
+      ".foo { color: oklch(0.40101 0.12332 21.555); }",
+      ".foo{color:oklch(0.40101 .12332 21.555)}",
     );
     minify_test(
       ".foo { color: oklch(0.40101 0.12332 .5turn); }",
-      ".foo{color:oklch(40.101% .12332 180)}",
+      ".foo{color:oklch(0.40101 .12332 180)}",
+    );
+    minify_test(
+      ".foo { color: oklch(0.40101 0.12332 .5turn); }",
+      ".foo{color:oklch(0.40101 .12332 180)}",
     );
     minify_test(
       ".foo { color: color(display-p3 1 0.5 0); }",
@@ -13557,11 +13556,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-color: lab(40% 56.6 39) }",
+      ".foo { background-color: lab(40 56.6 39) }",
       indoc! { r#"
         .foo {
           background-color: #b32323;
-          background-color: lab(40% 56.6 39);
+          background-color: lab(40 56.6 39);
         }
       "#},
       Browsers {
@@ -13575,21 +13574,7 @@ mod tests {
       indoc! { r#"
         .foo {
           background-color: #b32323;
-          background-color: lab(40% 56.6 39);
-        }
-      "#},
-      Browsers {
-        chrome: Some(90 << 16),
-        ..Browsers::default()
-      },
-    );
-
-    prefix_test(
-      ".foo { background-color: lch(40% 68.735435 34.568626) }",
-      indoc! { r#"
-        .foo {
-          background-color: #b32323;
-          background-color: lch(40% 68.7354 34.5686);
+          background-color: lab(40 56.6 39);
         }
       "#},
       Browsers {
@@ -13603,7 +13588,7 @@ mod tests {
       indoc! { r#"
         .foo {
           background-color: #b32323;
-          background-color: lch(40% 68.7354 34.5686);
+          background-color: lch(40 68.7354 34.5686);
         }
       "#},
       Browsers {
@@ -13613,11 +13598,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-color: oklab(59.686% 0.1009 0.1192); }",
+      ".foo { background-color: lch(40 68.735435 34.568626) }",
       indoc! { r#"
         .foo {
-          background-color: #c65d07;
-          background-color: lab(52.2319% 40.1449 59.9171);
+          background-color: #b32323;
+          background-color: lch(40 68.7354 34.5686);
         }
       "#},
       Browsers {
@@ -13631,7 +13616,7 @@ mod tests {
       indoc! { r#"
         .foo {
           background-color: #c65d07;
-          background-color: lab(52.2319% 40.1449 59.9171);
+          background-color: lab(52.2319 40.1449 59.9171);
         }
       "#},
       Browsers {
@@ -13641,11 +13626,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-color: oklch(40% 0.1268735435 34.568626) }",
+      ".foo { background-color: oklab(0.59686 0.1009 0.1192); }",
       indoc! { r#"
         .foo {
-          background-color: #7e250f;
-          background-color: lab(29.2661% 38.2437 35.3889);
+          background-color: #c65d07;
+          background-color: lab(52.2319 40.1449 59.9171);
         }
       "#},
       Browsers {
@@ -13659,7 +13644,7 @@ mod tests {
       indoc! { r#"
         .foo {
           background-color: #7e250f;
-          background-color: lab(29.2661% 38.2437 35.3889);
+          background-color: lab(29.2661 38.2437 35.3889);
         }
       "#},
       Browsers {
@@ -13669,10 +13654,24 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-color: lab(40% 56.6 39) }",
+      ".foo { background-color: oklch(0.4 0.1268735435 34.568626) }",
       indoc! { r#"
         .foo {
-          background-color: lab(40% 56.6 39);
+          background-color: #7e250f;
+          background-color: lab(29.2661 38.2437 35.3889);
+        }
+      "#},
+      Browsers {
+        chrome: Some(90 << 16),
+        ..Browsers::default()
+      },
+    );
+
+    prefix_test(
+      ".foo { background-color: lab(40 56.6 39) }",
+      indoc! { r#"
+        .foo {
+          background-color: lab(40 56.6 39);
         }
       "#},
       Browsers {
@@ -13682,11 +13681,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-color: oklab(59.686% 0.1009 0.1192); }",
+      ".foo { background-color: oklab(0.59686 0.1009 0.1192); }",
       indoc! { r#"
         .foo {
           background-color: #c65d07;
-          background-color: lab(52.2319% 40.1449 59.9171);
+          background-color: lab(52.2319 40.1449 59.9171);
         }
       "#},
       Browsers {
@@ -13697,12 +13696,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-color: oklab(59.686% 0.1009 0.1192); }",
+      ".foo { background-color: oklab(0.59686 0.1009 0.1192); }",
       indoc! { r#"
         .foo {
           background-color: #c65d07;
           background-color: color(display-p3 .724144 .386777 .148795);
-          background-color: lab(52.2319% 40.1449 59.9171);
+          background-color: lab(52.2319 40.1449 59.9171);
         }
       "#},
       Browsers {
@@ -13713,12 +13712,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-color: lab(40% 56.6 39) }",
+      ".foo { background-color: lab(40 56.6 39) }",
       indoc! { r#"
         .foo {
           background-color: #b32323;
           background-color: color(display-p3 .643308 .192455 .167712);
-          background-color: lab(40% 56.6 39);
+          background-color: lab(40 56.6 39);
         }
       "#},
       Browsers {
@@ -13729,11 +13728,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-color: oklch(59.686% 0.15619 49.7694); }",
+      ".foo { background-color: oklch(0.59686 0.15619 49.7694); }",
       indoc! { r#"
         .foo {
           background-color: #c65d06;
-          background-color: lab(52.2321% 40.1417 59.9527);
+          background-color: lab(52.2321 40.1417 59.9527);
         }
       "#},
       Browsers {
@@ -13912,12 +13911,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background-color: lch(50.998% 135.363 338) }",
+      ".foo { background-color: lch(50.998 135.363 338) }",
       indoc! { r#"
         .foo {
           background-color: #ee00be;
           background-color: color(display-p3 .972962 -.362078 .804206);
-          background-color: lch(50.998% 135.363 338);
+          background-color: lch(50.998 135.363 338);
         }
       "#},
       Browsers {
@@ -13928,12 +13927,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { color: lch(50.998% 135.363 338) }",
+      ".foo { color: lch(50.998 135.363 338) }",
       indoc! { r#"
         .foo {
           color: #ee00be;
           color: color(display-p3 .972962 -.362078 .804206);
-          color: lch(50.998% 135.363 338);
+          color: lch(50.998 135.363 338);
         }
       "#},
       Browsers {
@@ -13944,15 +13943,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { background: var(--image) lch(40% 68.735435 34.568626) }",
+      ".foo { background: var(--image) lch(40 68.735435 34.568626) }",
       indoc! { r#"
         .foo {
           background: var(--image) #b32323;
         }
 
-        @supports (color: lab(0% 0 0)) {
+        @supports (color: lab(0 0 0)) {
           .foo {
-            background: var(--image) lab(40% 56.6 39);
+            background: var(--image) lab(40 56.6 39);
           }
         }
       "#},
@@ -14099,7 +14098,7 @@ mod tests {
       .foo {
         --a: rgb(50% 50% 50% / calc(100% / 2));
         --b: hsl(calc(360deg / 2) 50% 50%);
-        --c: oklab(40.101% calc(0.1 + 0.2) 0.0453);
+        --c: oklab(0.40101 calc(0.1 + 0.2) 0.0453);
         --d: color(display-p3 0.43313 0.50108 calc(0.1 + 0.2));
         --e: rgb(calc(255 / 2), calc(255 / 2), calc(255 / 2));
       }
@@ -14108,7 +14107,7 @@ mod tests {
         .foo {
           --a: #80808080;
           --b: #40bfbf;
-          --c: oklab(40.101% .3 .0453);
+          --c: oklab(0.40101 .3 .0453);
           --d: color(display-p3 .43313 .50108 .3);
           --e: gray;
         }
@@ -14133,39 +14132,39 @@ mod tests {
     }
 
     // Test that conversion in other colours does not break
-    // test("rgb(from indianred r g b)", "rgba(205, 92, 92)");
+    test("rgb(from indianred r g b)", "rgba(205, 92, 92)");
 
     // Test that numeric equivalents are parsed as expected
-    test("lab(53.9252 45.7516 23.1557)", "lab(53.9252% 45.7516 23.1557)");
-    test("lch(53.9252 51.2776 26.8448)", "lch(53.9252% 51.2776 26.8448)");
-    test("oklab(0.615441 .133439 .0545326)", "oklab(61.5441% .133439 .0545326)");
-    test("oklch(61.5441% .144152 22.2284)", "oklch(61.5441% .144152 22.2284)");
+    test("lab(53.9252 45.7516 23.1557)", "lab(53.9252 45.7516 23.1557)");
+    test("lch(53.9252 51.2776 26.8448)", "lch(53.9252 51.2776 26.8448)");
+    test("oklab(0.615441 .133439 .0545326)", "oklab(0.615441 .133439 .0545326)");
+    test("oklch(0.615441 .144152 22.2284)", "oklch(0.615441 .144152 22.2284)");
 
     // Relative syntax calculations
     // In lab and lch, l is [0,100], and calc() reflects that
-    test("lab(from indianred calc(l + 10) a b)", "lab(63.9252% 45.7516 23.1557)");
-    test("lch(from indianred calc(l + 10) c h)", "lch(63.9252% 51.2776 26.8448)");
+    test("lab(from indianred calc(l + 10) a b)", "lab(63.9252 45.7516 23.1557)");
+    test("lch(from indianred calc(l + 10) c h)", "lch(63.9252 51.2776 26.8448)");
     // NOTE: This is a breaking change from the previous version that treated channels as percentages
-    // test("lch(from indianred calc(l + 10%) c h)", "lch(63.9252% 51.2776 26.8448)");
-    test("lab(from indianred calc(l * 1.1) a b)", "lab(59.3178% 45.7516 23.1557)");
-    test("lch(from indianred calc(l * 1.1) c h)", "lch(59.3178% 51.2776 26.8448)");
+    // test("lch(from indianred calc(l + 10%) c h)", "lch(63.9252 51.2776 26.8448)");
+    test("lab(from indianred calc(l * 1.1) a b)", "lab(59.3178 45.7516 23.1557)");
+    test("lch(from indianred calc(l * 1.1) c h)", "lch(59.3178 51.2776 26.8448)");
 
     // In oklab and oklch, l is [0,1], and calc() reflects that
     test(
       "oklab(from indianred calc(l + 0.1) a b)",
-      "oklab(71.5441% .133439 .0545326)",
+      "oklab(0.715441 .133439 .0545326)",
     );
     test(
       "oklch(from indianred calc(l + 0.1) c h)",
-      "oklch(71.5441% .144152 22.2284)",
+      "oklch(0.715441 .144152 22.2284)",
     );
     test(
       "oklab(from indianred calc(l * 1.1) a b)",
-      "oklab(67.69851% .133439 .0545326)",
+      "oklab(0.6769851 .133439 .0545326)",
     );
     test(
       "oklch(from indianred calc(l * 1.1) c h)",
-      "oklch(67.69851% .144152 22.2284)",
+      "oklch(0.6769851 .144152 22.2284)",
     );
   }
 
@@ -14186,41 +14185,41 @@ mod tests {
     }
 
     // In lab and lch, l is [0,100], and calc() reflects that
-    test("lab(from indianred calc(l + 10) a b)", "lab(63.9252% 45.7516 23.1557)");
-    test("lch(from indianred calc(l + 10) c h)", "lch(63.9252% 51.2776 26.8448)");
-    test("lab(from indianred calc(l * 1.1) a b)", "lab(59.3178% 45.7516 23.1557)");
-    test("lch(from indianred calc(l * 1.1) c h)", "lch(59.3178% 51.2776 26.8448)");
-    test("lab(from indianred calc(l * .8) a b)", "lab(43.1402% 45.7516 23.1557)");
+    test("lab(from indianred calc(l + 10) a b)", "lab(63.9252 45.7516 23.1557)");
+    test("lch(from indianred calc(l + 10) c h)", "lch(63.9252 51.2776 26.8448)");
+    test("lab(from indianred calc(l * 1.1) a b)", "lab(59.3178 45.7516 23.1557)");
+    test("lch(from indianred calc(l * 1.1) c h)", "lch(59.3178 51.2776 26.8448)");
+    test("lab(from indianred calc(l * .8) a b)", "lab(43.1402 45.7516 23.1557)");
 
     // NOTE: Breaking change from the previous version that treated channels as percentages
-    // test("lch(from indianred calc(l + 10%) c h)", "lch(63.9252% 51.2776 26.8448)");
+    // test("lch(from indianred calc(l + 10%) c h)", "lch(63.9252 51.2776 26.8448)");
 
     // In oklab and oklch, l is [0,1], and calc() reflects that
     test(
       "oklab(from indianred calc(l + 0.1) a b)",
-      "oklab(71.5441% .133439 .0545326)",
+      "oklab(0.715441 .133439 .0545326)",
     );
     test(
       "oklch(from indianred calc(l + 0.1) c h)",
-      "oklch(71.5441% .144152 22.2284)",
+      "oklch(0.715441 .144152 22.2284)",
     );
     test(
       "oklab(from indianred calc(l * 1.1) a b)",
-      "oklab(67.69851% .133439 .0545326)",
+      "oklab(0.6769851 .133439 .0545326)",
     );
     test(
       "oklch(from indianred calc(l * 1.1) c h)",
-      "oklch(67.69851% .144152 22.2284)",
+      "oklch(0.6769851 .144152 22.2284)",
     );
 
-    test("lch(from indianred l calc(c - 50) h)", "lch(53.9252% 1.27763 26.8448)");
+    test("lch(from indianred l calc(c - 50) h)", "lch(53.9252 1.27763 26.8448)");
     test(
       "lch(from indianred l c calc(h + 180deg))",
-      "lch(53.9252% 51.2776 206.845)",
+      "lch(53.9252 51.2776 206.845)",
     );
-    test("lch(from orchid l 30 h)", "lch(62.7526% 30 326.969)");
-    test("lch(from orchid l 30 h)", "lch(62.7526% 30 326.969)");
-    test("lch(from peru calc(l * 0.8) c h)", "lch(49.8022% 54.0117 63.6804)");
+    test("lch(from orchid l 30 h)", "lch(62.7526 30 326.969)");
+    test("lch(from orchid l 30 h)", "lch(62.7526 30 326.969)");
+    test("lch(from peru calc(l * 0.8) c h)", "lch(49.8022 54.0117 63.6804)");
     test("rgb(from indianred 255 g b)", "rgb(255, 92, 92)");
     test("rgb(from indianred r g b / .5)", "rgba(205, 92, 92, .5)");
     test(
@@ -14231,9 +14230,9 @@ mod tests {
       "rgb(from rgba(205, 92, 92, .5) r g b / calc(alpha + 20%))",
       "rgba(205, 92, 92, .7)",
     );
-    test("lch(from indianred l sin(c) h)", "lch(53.9252% .84797 26.8448)");
-    test("lch(from indianred l sqrt(c) h)", "lch(53.9252% 7.16084 26.8448)");
-    test("lch(from indianred l c sin(h))", "lch(53.9252% 51.2776 .990043)");
+    test("lch(from indianred l sin(c) h)", "lch(53.9252 .84797 26.8448)");
+    test("lch(from indianred l sqrt(c) h)", "lch(53.9252 7.16084 26.8448)");
+    test("lch(from indianred l c sin(h))", "lch(53.9252 51.2776 .990043)");
 
     // The following tests were converted from WPT: https://github.com/web-platform-tests/wpt/blob/master/css/css-color/parsing/color-valid-relative-color.html
     // Find: test_valid_value\(`color`, `(.*?)`,\s*`(.*?)`\)
@@ -14251,9 +14250,9 @@ mod tests {
     // Testing non-sRGB origin colors to see gamut mapping.
     test("rgb(from color(display-p3 0 1 0) r g b / alpha)", "rgb(0, 249, 66)"); // Naive clip based mapping would give rgb(0, 255, 0).
     test("rgb(from lab(100 104.3 -50.9) r g b)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 150, 255).
-    test("rgb(from lab(0 104.3 -50.9) r g b)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black,
+    test("rgb(from lab(0 104.3 -50.9) r g b)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0 lightness in Lab/LCH does not automatically correspond with sRGB black,
     test("rgb(from lch(100 116 334) r g b)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 150, 255).
-    test("rgb(from lch(0 116 334) r g b)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black,
+    test("rgb(from lch(0 116 334) r g b)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0 lightness in Lab/LCH does not automatically correspond with sRGB black,
     test("rgb(from oklab(1 0.365 -0.16) r g b)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 92, 255).
     test("rgb(from oklab(0 0.365 -0.16) r g b)", "rgb(0, 0, 0)"); // Naive clip based mapping would give rgb(19, 0, 24).
     test("rgb(from oklch(1 0.399 336.3) r g b)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 91, 255).
@@ -14419,9 +14418,9 @@ mod tests {
     // Testing non-sRGB origin colors to see gamut mapping.
     test("hsl(from color(display-p3 0 1 0) h s l / alpha)", "rgb(0, 249, 66)"); // Naive clip based mapping would give rgb(0, 255, 0).
     test("hsl(from lab(100 104.3 -50.9) h s l)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 150, 255).
-    test("hsl(from lab(0 104.3 -50.9) h s l)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black,
+    test("hsl(from lab(0 104.3 -50.9) h s l)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0 lightness in Lab/LCH does not automatically correspond with sRGB black,
     test("hsl(from lch(100 116 334) h s l)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 150, 255).
-    test("hsl(from lch(0 116 334) h s l)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black,
+    test("hsl(from lch(0 116 334) h s l)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0 lightness in Lab/LCH does not automatically correspond with sRGB black,
     test("hsl(from oklab(1 0.365 -0.16) h s l)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 92, 255).
     test("hsl(from oklab(0 0.365 -0.16) h s l)", "rgb(0, 0, 0)"); // Naive clip based mapping would give rgb(19, 0, 24).
     test("hsl(from oklch(1 0.399 336.3) h s l)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 91, 255).
@@ -14554,9 +14553,9 @@ mod tests {
     // Testing non-sRGB origin colors to see gamut mapping.
     test("hwb(from color(display-p3 0 1 0) h w b / alpha)", "rgb(0, 249, 66)"); // Naive clip based mapping would give rgb(0, 255, 0).
     test("hwb(from lab(100 104.3 -50.9) h w b)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 150, 255).
-    test("hwb(from lab(0 104.3 -50.9) h w b)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black,
+    test("hwb(from lab(0 104.3 -50.9) h w b)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0 lightness in Lab/LCH does not automatically correspond with sRGB black,
     test("hwb(from lch(100 116 334) h w b)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 150, 255).
-    test("hwb(from lch(0 116 334) h w b)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black,
+    test("hwb(from lch(0 116 334) h w b)", "rgb(42, 0, 34)"); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0 lightness in Lab/LCH does not automatically correspond with sRGB black,
     test("hwb(from oklab(1 0.365 -0.16) h w b)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 92, 255).
     test("hwb(from oklab(0 0.365 -0.16) h w b)", "rgb(0, 0, 0)"); // Naive clip based mapping would give rgb(19, 0, 24).
     test("hwb(from oklch(1 0.399 336.3) h w b)", "rgb(255, 255, 255)"); // Naive clip based mapping would give rgb(255, 91, 255).
@@ -16035,19 +16034,19 @@ mod tests {
   fn test_color_mix() {
     minify_test(
       ".foo { color: color-mix(in lab, purple 50%, plum 50%); }",
-      ".foo{color:lab(51.5117% 43.3777 -29.0443)}",
+      ".foo{color:lab(51.5117 43.3777 -29.0443)}",
     );
     minify_test(
       ".foo { color: color-mix(in lch, peru 40%, palegoldenrod); }",
-      ".foo{color:lch(79.7255% 40.4542 84.7634)}",
+      ".foo{color:lch(79.7255 40.4542 84.7634)}",
     );
     minify_test(
       ".foo { color: color-mix(in lch, teal 65%, olive); }",
-      ".foo{color:lch(49.4431% 40.4806 162.546)}",
+      ".foo{color:lch(49.4431 40.4806 162.546)}",
     );
     minify_test(
       ".foo { color: color-mix(in lch, white, black); }",
-      ".foo{color:lch(50% 0 none)}",
+      ".foo{color:lch(50 0 none)}",
     );
     minify_test(
       ".foo { color: color-mix(in xyz, rgb(82.02% 30.21% 35.02%) 75.23%, rgb(5.64% 55.94% 85.31%)); }",
@@ -16055,11 +16054,11 @@ mod tests {
     );
     minify_test(
       ".foo { color: color-mix(in lch, white, blue); }",
-      ".foo{color:lch(64.7842% 65.6007 301.364)}",
+      ".foo{color:lch(64.7842 65.6007 301.364)}",
     );
     minify_test(
       ".foo { color: color-mix(in oklch, white, blue); }",
-      ".foo{color:oklch(72.6007% .156607 264.052)}",
+      ".foo{color:oklch(.726007 .156607 264.052)}",
     );
     minify_test(
       ".foo { color: color-mix(in srgb, white, blue); }",
@@ -16067,11 +16066,11 @@ mod tests {
     );
     minify_test(
       ".foo { color: color-mix(in lch, blue, white); }",
-      ".foo{color:lch(64.7842% 65.6007 301.364)}",
+      ".foo{color:lch(64.7842 65.6007 301.364)}",
     );
     minify_test(
       ".foo { color: color-mix(in oklch, blue, white); }",
-      ".foo{color:oklch(72.6007% .156607 264.052)}",
+      ".foo{color:oklch(.726007 .156607 264.052)}",
     );
     minify_test(
       ".foo { color: color-mix(in srgb, blue, white); }",
@@ -16092,7 +16091,7 @@ mod tests {
     );
     minify_test(
       ".foo { color: color-mix(in lch, color(display-p3 0 1 none), color(display-p3 0 0 1)); }",
-      ".foo{color:lch(58.8143% 141.732 218.684)}",
+      ".foo{color:lch(58.8143 141.732 218.684)}",
     );
     minify_test(
       ".foo { color: color-mix(in srgb, rgb(128 128 none), rgb(none none 128)); }",
@@ -16108,7 +16107,7 @@ mod tests {
     );
     minify_test(
       ".foo { --color: color-mix(in lch, teal 65%, olive); }",
-      ".foo{--color:lch(49.4431% 40.4806 162.546)}",
+      ".foo{--color:lch(49.4431 40.4806 162.546)}",
     );
 
     // TODO(fpapado): Update these to latest tests
@@ -16367,35 +16366,35 @@ mod tests {
       &canonicalize("rgb(0, 249, 66)"),
     ); // Naive clip based mapping would give rgb(0, 255, 0).
     minify_test(
-      ".foo { color: color-mix(in hsl, lab(100% 104.3 -50.9) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hsl, lab(100 104.3 -50.9) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(255, 255, 255)"),
     ); // Naive clip based mapping would give rgb(255, 150, 255).
     minify_test(
-      ".foo { color: color-mix(in hsl, lab(0% 104.3 -50.9) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hsl, lab(0 104.3 -50.9) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(42, 0, 34)"),
     ); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black,
     minify_test(
-      ".foo { color: color-mix(in hsl, lch(100% 116 334) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hsl, lch(100 116 334) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(255, 255, 255)"),
     ); // Naive clip based mapping would give rgb(255, 150, 255).
     minify_test(
-      ".foo { color: color-mix(in hsl, lch(0% 116 334) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hsl, lch(0 116 334) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(42, 0, 34)"),
     ); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black,
     minify_test(
-      ".foo { color: color-mix(in hsl, oklab(100% 0.365 -0.16) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hsl, oklab(1 0.365 -0.16) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(255, 255, 255)"),
     ); // Naive clip based mapping would give rgb(255, 92, 255).
     minify_test(
-      ".foo { color: color-mix(in hsl, oklab(0% 0.365 -0.16) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hsl, oklab(0 0.365 -0.16) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(0, 0, 0)"),
     ); // Naive clip based mapping would give rgb(19, 0, 24).
     minify_test(
-      ".foo { color: color-mix(in hsl, oklch(100% 0.399 336.3) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hsl, oklch(1 0.399 336.3) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(255, 255, 255)"),
     ); // Naive clip based mapping would give rgb(255, 91, 255).
     minify_test(
-      ".foo { color: color-mix(in hsl, oklch(0% 0.399 336.3) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hsl, oklch(0 0.399 336.3) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(0, 0, 0)"),
     ); // Naive clip based mapping would give rgb(20, 0, 24).
 
@@ -16568,35 +16567,35 @@ mod tests {
       &canonicalize("rgb(0, 249, 66)"),
     ); // Naive clip based mapping would give rgb(0, 255, 0).
     minify_test(
-      ".foo { color: color-mix(in hwb, lab(100% 104.3 -50.9) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hwb, lab(100 104.3 -50.9) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(255, 255, 255)"),
     ); // Naive clip based mapping would give rgb(255, 150, 255).
     minify_test(
-      ".foo { color: color-mix(in hwb, lab(0% 104.3 -50.9) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hwb, lab(0 104.3 -50.9) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(42, 0, 34)"),
     ); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black,
     minify_test(
-      ".foo { color: color-mix(in hwb, lch(100% 116 334) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hwb, lch(100 116 334) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(255, 255, 255)"),
     ); // Naive clip based mapping would give rgb(255, 150, 255).
     minify_test(
-      ".foo { color: color-mix(in hwb, lch(0% 116 334) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hwb, lch(0 116 334) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(42, 0, 34)"),
     ); // Naive clip based mapping would give rgb(90, 0, 76). NOTE: 0% lightness in Lab/LCH does not automatically correspond with sRGB black,
     minify_test(
-      ".foo { color: color-mix(in hwb, oklab(100% 0.365 -0.16) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hwb, oklab(1 0.365 -0.16) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(255, 255, 255)"),
     ); // Naive clip based mapping would give rgb(255, 92, 255).
     minify_test(
-      ".foo { color: color-mix(in hwb, oklab(0% 0.365 -0.16) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hwb, oklab(0 0.365 -0.16) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(0, 0, 0)"),
     ); // Naive clip based mapping would give rgb(19, 0, 24).
     minify_test(
-      ".foo { color: color-mix(in hwb, oklch(100% 0.399 336.3) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hwb, oklch(1 0.399 336.3) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(255, 255, 255)"),
     ); // Naive clip based mapping would give rgb(255, 91, 255).
     minify_test(
-      ".foo { color: color-mix(in hwb, oklch(0% 0.399 336.3) 100%, rgb(0, 0, 0) 0%) }",
+      ".foo { color: color-mix(in hwb, oklch(0 0.399 336.3) 100%, rgb(0, 0, 0) 0%) }",
       &canonicalize("rgb(0, 0, 0)"),
     ); // Naive clip based mapping would give rgb(20, 0, 24).
 
@@ -18335,7 +18334,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: lab(40 56.6 39);
       }
     "#,
       indoc! {r#"
@@ -18343,9 +18342,9 @@ mod tests {
         --custom: #b32323;
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo {
-          --custom: lab(40% 56.6 39);
+          --custom: lab(40 56.6 39);
         }
       }
     "#},
@@ -18358,7 +18357,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: lab(40% 56.6 39) !important;
+        --custom: lab(40 56.6 39) !important;
       }
     "#,
       indoc! {r#"
@@ -18366,9 +18365,9 @@ mod tests {
         --custom: #b32323 !important;
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo {
-          --custom: lab(40% 56.6 39) !important;
+          --custom: lab(40 56.6 39) !important;
         }
       }
     "#},
@@ -18381,7 +18380,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: lab(40 56.6 39);
       }
     "#,
       indoc! {r#"
@@ -18395,9 +18394,9 @@ mod tests {
         }
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo {
-          --custom: lab(40% 56.6 39);
+          --custom: lab(40 56.6 39);
         }
       }
     "#},
@@ -18411,7 +18410,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: lab(40 56.6 39);
       }
     "#,
       indoc! {r#"
@@ -18419,9 +18418,9 @@ mod tests {
         --custom: color(display-p3 .643308 .192455 .167712);
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo {
-          --custom: lab(40% 56.6 39);
+          --custom: lab(40 56.6 39);
         }
       }
     "#},
@@ -18434,12 +18433,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: lab(40 56.6 39);
       }
     "#,
       indoc! {r#"
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: lab(40 56.6 39);
       }
     "#},
       Browsers {
@@ -18451,12 +18450,12 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: oklab(59.686% 0.1009 0.1192);
+        --custom: oklab(0.59686 0.1009 0.1192);
       }
     "#,
       indoc! {r#"
       .foo {
-        --custom: lab(52.2319% 40.1449 59.9171);
+        --custom: lab(52.2319 40.1449 59.9171);
       }
     "#},
       Browsers {
@@ -18468,7 +18467,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: oklab(59.686% 0.1009 0.1192);
+        --custom: oklab(0.59686 0.1009 0.1192);
       }
     "#,
       indoc! {r#"
@@ -18476,9 +18475,9 @@ mod tests {
         --custom: color(display-p3 .724144 .386777 .148795);
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo {
-          --custom: lab(52.2319% 40.1449 59.9171);
+          --custom: lab(52.2319 40.1449 59.9171);
         }
       }
     "#},
@@ -18491,7 +18490,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: oklab(59.686% 0.1009 0.1192);
+        --custom: oklab(0.59686 0.1009 0.1192);
       }
     "#,
       indoc! {r#"
@@ -18505,9 +18504,9 @@ mod tests {
         }
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo {
-          --custom: lab(52.2319% 40.1449 59.9171);
+          --custom: lab(52.2319 40.1449 59.9171);
         }
       }
     "#},
@@ -18521,8 +18520,8 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --foo: oklab(59.686% 0.1009 0.1192);
-        --bar: lab(40% 56.6 39);
+        --foo: oklab(0.59686 0.1009 0.1192);
+        --bar: lab(40 56.6 39);
       }
     "#,
       indoc! {r#"
@@ -18538,10 +18537,10 @@ mod tests {
         }
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo {
-          --foo: lab(52.2319% 40.1449 59.9171);
-          --bar: lab(40% 56.6 39);
+          --foo: lab(52.2319 40.1449 59.9171);
+          --bar: lab(40 56.6 39);
         }
       }
     "#},
@@ -18647,7 +18646,7 @@ mod tests {
       }
 
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: lab(40 56.6 39);
       }
     "#,
       indoc! {r#"
@@ -18656,9 +18655,9 @@ mod tests {
         text-decoration: underline;
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo {
-          --custom: lab(40% 56.6 39);
+          --custom: lab(40 56.6 39);
         }
       }
     "#},
@@ -18671,7 +18670,7 @@ mod tests {
     prefix_test(
       r#"
       .foo {
-        --custom: lab(40% 56.6 39);
+        --custom: lab(40 56.6 39);
       }
 
       .foo {
@@ -18683,9 +18682,9 @@ mod tests {
         --custom: #b32323;
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         .foo {
-          --custom: lab(40% 56.6 39);
+          --custom: lab(40 56.6 39);
         }
       }
 
@@ -18703,11 +18702,11 @@ mod tests {
       r#"
       @keyframes foo {
         from {
-          --custom: lab(40% 56.6 39);
+          --custom: lab(40 56.6 39);
         }
 
         to {
-          --custom: lch(50.998% 135.363 338);
+          --custom: lch(50.998 135.363 338);
         }
       }
     "#,
@@ -18722,14 +18721,14 @@ mod tests {
         }
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         @keyframes foo {
           from {
-            --custom: lab(40% 56.6 39);
+            --custom: lab(40 56.6 39);
           }
 
           to {
-            --custom: lab(50.998% 125.506 -50.7078);
+            --custom: lab(50.998 125.506 -50.7078);
           }
         }
       }
@@ -18744,11 +18743,11 @@ mod tests {
       r#"
       @keyframes foo {
         from {
-          --custom: lab(40% 56.6 39);
+          --custom: lab(40 56.6 39);
         }
 
         to {
-          --custom: lch(50.998% 135.363 338);
+          --custom: lch(50.998 135.363 338);
         }
       }
     "#,
@@ -18775,14 +18774,14 @@ mod tests {
         }
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         @keyframes foo {
           from {
-            --custom: lab(40% 56.6 39);
+            --custom: lab(40 56.6 39);
           }
 
           to {
-            --custom: lab(50.998% 125.506 -50.7078);
+            --custom: lab(50.998 125.506 -50.7078);
           }
         }
       }
@@ -18803,7 +18802,7 @@ mod tests {
         }
 
         to {
-          --custom: lch(50.998% 135.363 338);
+          --custom: lch(50.998 135.363 338);
           opacity: 1;
         }
       }
@@ -18821,7 +18820,7 @@ mod tests {
         }
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         @keyframes foo {
           from {
             --custom: #ff0;
@@ -18829,7 +18828,7 @@ mod tests {
           }
 
           to {
-            --custom: lab(50.998% 125.506 -50.7078);
+            --custom: lab(50.998 125.506 -50.7078);
             opacity: 1;
           }
         }
@@ -18845,7 +18844,7 @@ mod tests {
       r#"
       @keyframes foo {
         from {
-          text-decoration: var(--foo) lab(29.2345% 39.3825 20.0664);
+          text-decoration: var(--foo) lab(29.2345 39.3825 20.0664);
         }
       }
     "#,
@@ -18856,10 +18855,10 @@ mod tests {
         }
       }
 
-      @supports (color: lab(0% 0 0)) {
+      @supports (color: lab(0 0 0)) {
         @keyframes foo {
           from {
-            text-decoration: var(--foo) lab(29.2345% 39.3825 20.0664);
+            text-decoration: var(--foo) lab(29.2345 39.3825 20.0664);
           }
         }
       }
@@ -18913,8 +18912,8 @@ mod tests {
       }),
     );
     attr_test(
-      "color: lab(40% 56.6 39);",
-      "color:#b32323;color:lab(40% 56.6 39)",
+      "color: lab(40 56.6 39);",
+      "color:#b32323;color:lab(40 56.6 39)",
       true,
       Some(Browsers {
         safari: Some(8 << 16),
@@ -18922,7 +18921,7 @@ mod tests {
       }),
     );
     attr_test(
-      "--foo: lab(40% 56.6 39);",
+      "--foo: lab(40 56.6 39);",
       "--foo:#b32323",
       true,
       Some(Browsers {
@@ -18931,7 +18930,7 @@ mod tests {
       }),
     );
     attr_test(
-      "text-decoration: var(--foo) lab(40% 56.6 39);",
+      "text-decoration: var(--foo) lab(40 56.6 39);",
       "text-decoration:var(--foo)#b32323",
       true,
       Some(Browsers {
@@ -21326,12 +21325,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { fill: lch(50.998% 135.363 338) }",
+      ".foo { fill: lch(50.998 135.363 338) }",
       indoc! { r#"
         .foo {
           fill: #ee00be;
           fill: color(display-p3 .972962 -.362078 .804206);
-          fill: lch(50.998% 135.363 338);
+          fill: lch(50.998 135.363 338);
         }
       "#},
       Browsers {
@@ -21342,12 +21341,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { stroke: lch(50.998% 135.363 338) }",
+      ".foo { stroke: lch(50.998 135.363 338) }",
       indoc! { r#"
         .foo {
           stroke: #ee00be;
           stroke: color(display-p3 .972962 -.362078 .804206);
-          stroke: lch(50.998% 135.363 338);
+          stroke: lch(50.998 135.363 338);
         }
       "#},
       Browsers {
@@ -21358,12 +21357,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { fill: url(#foo) lch(50.998% 135.363 338) }",
+      ".foo { fill: url(#foo) lch(50.998 135.363 338) }",
       indoc! { r##"
         .foo {
           fill: url("#foo") #ee00be;
           fill: url("#foo") color(display-p3 .972962 -.362078 .804206);
-          fill: url("#foo") lch(50.998% 135.363 338);
+          fill: url("#foo") lch(50.998 135.363 338);
         }
       "##},
       Browsers {
@@ -21374,15 +21373,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { fill: var(--url) lch(50.998% 135.363 338) }",
+      ".foo { fill: var(--url) lch(50.998 135.363 338) }",
       indoc! { r#"
         .foo {
           fill: var(--url) #ee00be;
         }
 
-        @supports (color: lab(0% 0 0)) {
+        @supports (color: lab(0 0 0)) {
           .foo {
-            fill: var(--url) lab(50.998% 125.506 -50.7078);
+            fill: var(--url) lab(50.998 125.506 -50.7078);
           }
         }
       "#},
@@ -21393,15 +21392,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { mask-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           -webkit-mask-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff));
           -webkit-mask-image: -webkit-linear-gradient(#ff0f0e, #7773ff);
           -webkit-mask-image: linear-gradient(#ff0f0e, #7773ff);
           mask-image: linear-gradient(#ff0f0e, #7773ff);
-          -webkit-mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
-          mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          -webkit-mask-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
+          mask-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -21411,13 +21410,13 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) }",
+      ".foo { mask-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) }",
       indoc! { r#"
         .foo {
           -webkit-mask-image: linear-gradient(#ff0f0e, #7773ff);
           mask-image: linear-gradient(#ff0f0e, #7773ff);
-          -webkit-mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
-          mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          -webkit-mask-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
+          mask-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#},
       Browsers {
@@ -21455,15 +21454,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40px 20px }",
+      ".foo { mask: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 40px 20px }",
       indoc! { r#"
         .foo {
           -webkit-mask: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff)) 40px 20px;
           -webkit-mask: -webkit-linear-gradient(#ff0f0e, #7773ff) 40px 20px;
           -webkit-mask: linear-gradient(#ff0f0e, #7773ff) 40px 20px;
           mask: linear-gradient(#ff0f0e, #7773ff) 40px 20px;
-          -webkit-mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40px 20px;
-          mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40px 20px;
+          -webkit-mask: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 40px 20px;
+          mask: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 40px 20px;
         }
       "#},
       Browsers {
@@ -21473,7 +21472,7 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { mask: -webkit-linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40px 20px }",
+      ".foo { mask: -webkit-linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 40px 20px }",
       indoc! { r#"
         .foo {
           -webkit-mask: -webkit-gradient(linear, 0 0, 0 100%, from(#ff0f0e), to(#7773ff)) 40px 20px;
@@ -21487,17 +21486,17 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 40px var(--foo) }",
+      ".foo { mask: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 40px var(--foo) }",
       indoc! { r#"
         .foo {
           -webkit-mask: linear-gradient(#ff0f0e, #7773ff) 40px var(--foo);
           mask: linear-gradient(#ff0f0e, #7773ff) 40px var(--foo);
         }
 
-        @supports (color: lab(0% 0 0)) {
+        @supports (color: lab(0 0 0)) {
           .foo {
-            -webkit-mask: linear-gradient(lab(56.208% 94.4644 98.8928), lab(51% 70.4544 -115.586)) 40px var(--foo);
-            mask: linear-gradient(lab(56.208% 94.4644 98.8928), lab(51% 70.4544 -115.586)) 40px var(--foo);
+            -webkit-mask: linear-gradient(lab(56.208 94.4644 98.8928), lab(51 70.4544 -115.586)) 40px var(--foo);
+            mask: linear-gradient(lab(56.208 94.4644 98.8928), lab(51 70.4544 -115.586)) 40px var(--foo);
           }
         }
       "#},
@@ -21566,7 +21565,7 @@ mod tests {
     prefix_test(
       r#"
         .foo {
-          mask-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          mask-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
           mask-position: 25% 75%;
           mask-size: cover;
           mask-repeat: no-repeat;
@@ -21582,10 +21581,10 @@ mod tests {
           -webkit-mask-composite: source-out;
           -webkit-mask-source-type: luminance;
           mask: linear-gradient(#ff0f0e, #7773ff) 25% 75% / cover no-repeat content-box padding-box subtract luminance;
-          -webkit-mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 25% 75% / cover no-repeat content-box padding-box;
+          -webkit-mask: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 25 75 / cover no-repeat content-box padding-box;
           -webkit-mask-composite: source-out;
           -webkit-mask-source-type: luminance;
-          mask: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 25% 75% / cover no-repeat content-box padding-box subtract luminance;
+          mask: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 25 75 / cover no-repeat content-box padding-box subtract luminance;
         }
     "#},
       Browsers {
@@ -21651,15 +21650,15 @@ mod tests {
     prefix_test(
       r#"
         .foo {
-          mask-border: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 25 / 35px / 12px space luminance;
+          mask-border: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 25 / 35px / 12px space luminance;
         }
       "#,
       indoc! { r#"
         .foo {
           -webkit-mask-box-image: linear-gradient(#ff0f0e, #7773ff) 25 / 35px / 12px space;
           mask-border: linear-gradient(#ff0f0e, #7773ff) 25 / 35px / 12px space luminance;
-          -webkit-mask-box-image: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 25 / 35px / 12px space;
-          mask-border: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) 25 / 35px / 12px space luminance;
+          -webkit-mask-box-image: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 25 / 35px / 12px space;
+          mask-border: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) 25 / 35px / 12px space luminance;
         }
     "#},
       Browsers {
@@ -21671,15 +21670,15 @@ mod tests {
     prefix_test(
       r#"
         .foo {
-          mask-border-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          mask-border-source: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
       "#,
       indoc! { r#"
         .foo {
           -webkit-mask-box-image-source: linear-gradient(#ff0f0e, #7773ff);
           mask-border-source: linear-gradient(#ff0f0e, #7773ff);
-          -webkit-mask-box-image-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
-          mask-border-source: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364));
+          -webkit-mask-box-image-source: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
+          mask-border-source: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364));
         }
     "#},
       Browsers {
@@ -21771,7 +21770,7 @@ mod tests {
     prefix_test(
       r#"
         .foo {
-          mask-border: linear-gradient(lch(56.208% 136.76 46.312), lch(51% 135.366 301.364)) var(--foo);
+          mask-border: linear-gradient(lch(56.208 136.76 46.312), lch(51 135.366 301.364)) var(--foo);
         }
       "#,
       indoc! { r#"
@@ -21780,10 +21779,10 @@ mod tests {
           mask-border: linear-gradient(#ff0f0e, #7773ff) var(--foo);
         }
 
-        @supports (color: lab(0% 0 0)) {
+        @supports (color: lab(0 0 0)) {
           .foo {
-            -webkit-mask-box-image: linear-gradient(lab(56.208% 94.4644 98.8928), lab(51% 70.4544 -115.586)) var(--foo);
-            mask-border: linear-gradient(lab(56.208% 94.4644 98.8928), lab(51% 70.4544 -115.586)) var(--foo);
+            -webkit-mask-box-image: linear-gradient(lab(56.208 94.4644 98.8928), lab(51 70.4544 -115.586)) var(--foo);
+            mask-border: linear-gradient(lab(56.208 94.4644 98.8928), lab(51 70.4544 -115.586)) var(--foo);
           }
         }
     "#},
@@ -21968,12 +21967,12 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { filter: drop-shadow(16px 16px 20px lab(40% 56.6 39)) }",
+      ".foo { filter: drop-shadow(16px 16px 20px lab(40 56.6 39)) }",
       indoc! { r#"
         .foo {
           -webkit-filter: drop-shadow(16px 16px 20px #b32323);
           filter: drop-shadow(16px 16px 20px #b32323);
-          filter: drop-shadow(16px 16px 20px lab(40% 56.6 39));
+          filter: drop-shadow(16px 16px 20px lab(40 56.6 39));
         }
       "#},
       Browsers {
@@ -21983,11 +21982,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { filter: contrast(175%) drop-shadow(16px 16px 20px lab(40% 56.6 39)) }",
+      ".foo { filter: contrast(175%) drop-shadow(16px 16px 20px lab(40 56.6 39)) }",
       indoc! { r#"
         .foo {
           filter: contrast(175%) drop-shadow(16px 16px 20px #b32323);
-          filter: contrast(175%) drop-shadow(16px 16px 20px lab(40% 56.6 39));
+          filter: contrast(175%) drop-shadow(16px 16px 20px lab(40 56.6 39));
         }
       "#},
       Browsers {
@@ -21997,11 +21996,11 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { filter: drop-shadow(16px 16px 20px lab(40% 56.6 39)) drop-shadow(16px 16px 20px yellow) }",
+      ".foo { filter: drop-shadow(16px 16px 20px lab(40 56.6 39)) drop-shadow(16px 16px 20px yellow) }",
       indoc! { r#"
         .foo {
           filter: drop-shadow(16px 16px 20px #b32323) drop-shadow(16px 16px 20px #ff0);
-          filter: drop-shadow(16px 16px 20px lab(40% 56.6 39)) drop-shadow(16px 16px 20px #ff0);
+          filter: drop-shadow(16px 16px 20px lab(40 56.6 39)) drop-shadow(16px 16px 20px #ff0);
         }
       "#},
       Browsers {
@@ -22011,15 +22010,15 @@ mod tests {
     );
 
     prefix_test(
-      ".foo { filter: var(--foo) drop-shadow(16px 16px 20px lab(40% 56.6 39)) }",
+      ".foo { filter: var(--foo) drop-shadow(16px 16px 20px lab(40 56.6 39)) }",
       indoc! { r#"
         .foo {
           filter: var(--foo) drop-shadow(16px 16px 20px #b32323);
         }
 
-        @supports (color: lab(0% 0 0)) {
+        @supports (color: lab(0 0 0)) {
           .foo {
-            filter: var(--foo) drop-shadow(16px 16px 20px lab(40% 56.6 39));
+            filter: var(--foo) drop-shadow(16px 16px 20px lab(40 56.6 39));
           }
         }
       "#},
