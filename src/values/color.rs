@@ -557,6 +557,7 @@ struct RelativeComponentParser {
   names: (&'static str, &'static str, &'static str),
   components: (f32, f32, f32, f32),
   types: (ChannelType, ChannelType, ChannelType),
+  use_numbers_only_in_calc: bool,
 }
 
 impl RelativeComponentParser {
@@ -565,10 +566,15 @@ impl RelativeComponentParser {
       names: color.channels(),
       components: color.components(),
       types: color.types(),
+      use_numbers_only_in_calc: true,
     }
   }
 
   fn get_ident(&self, ident: &str, allowed_types: ChannelType) -> Option<f32> {
+    println!(
+      "in get_ident for ident {:?}. available names are {:?}",
+      &ident, &self.names
+    );
     if ident.eq_ignore_ascii_case(self.names.0) && allowed_types.intersects(self.types.0) {
       return Some(self.components.0);
     }
@@ -646,14 +652,19 @@ impl<'i> ColorComponentParser<'i> for RelativeComponentParser {
   }
 
   fn parse_number<'t>(&self, input: &mut Parser<'i, 't>) -> Result<f32, ParseError<'i, Self::Error>> {
+    println!("In relative parse_number");
+    println!("{:?} {:?}", input.current_line(), input.current_source_location());
     if let Ok(value) = input.try_parse(|input| self.parse_ident(input, ChannelType::Number)) {
+      dbg!(&value);
       return Ok(value);
     }
 
     if let Ok(value) = input.try_parse(|input| self.parse_calc(input, ChannelType::Number)) {
+      dbg!(&value);
       return Ok(value);
     }
 
+    println!("Error in relative parse_number");
     Err(input.new_error_for_next_token())
   }
 
@@ -678,36 +689,77 @@ impl<'i> ColorComponentParser<'i> for RelativeComponentParser {
     Err(input.new_error_for_next_token())
   }
 
+  // TODO: Figure out how to use this in both LAB and RGB colours...
+  // The ColorComponentParser calls from.parse_number_or_percentage internally,
+  // which then calls out to parse_calc.
+  // Should we parse_calc with numberers, then nomralise?
+  // Should we split which parse_number_or_percentage we call from the top-level ColorComponentParser?
   fn parse_number_or_percentage<'t>(
     &self,
     input: &mut Parser<'i, 't>,
   ) -> Result<NumberOrPercentage, ParseError<'i, Self::Error>> {
-    if let Ok(value) =
-      input.try_parse(|input| self.parse_ident(input, ChannelType::Percentage | ChannelType::Number))
-    {
-      return Ok(NumberOrPercentage::Percentage { unit_value: value });
-    }
-
-    if let Ok(value) =
-      input.try_parse(|input| self.parse_calc(input, ChannelType::Percentage | ChannelType::Number))
-    {
-      return Ok(NumberOrPercentage::Percentage { unit_value: value });
-    }
-
-    if let Ok(value) = input.try_parse(|input| -> Result<Percentage, ParseError<'i, ParserError<'i>>> {
-      match Calc::parse_with(input, |ident| {
-        self
-          .get_ident(ident, ChannelType::Percentage | ChannelType::Number)
-          .map(|v| Calc::Value(Box::new(Percentage(v))))
-      }) {
-        Ok(Calc::Value(v)) => Ok(*v),
-        _ => Err(input.new_custom_error(ParserError::InvalidValue)),
+    if self.use_numbers_only_in_calc {
+      if let Ok(value) =
+        input.try_parse(|input| self.parse_ident(input, ChannelType::Percentage | ChannelType::Number))
+      {
+        dbg!(&value);
+        return Ok(NumberOrPercentage::Number { value });
       }
-    }) {
-      return Ok(NumberOrPercentage::Percentage { unit_value: value.0 });
-    }
 
-    Err(input.new_error_for_next_token())
+      if let Ok(value) =
+        input.try_parse(|input| self.parse_calc(input, ChannelType::Percentage | ChannelType::Number))
+      {
+        dbg!(&value);
+        return Ok(NumberOrPercentage::Number { value });
+      }
+
+      if let Ok(value) = input.try_parse(|input| -> Result<f32, ParseError<'i, ParserError<'i>>> {
+        match Calc::parse_with(input, |ident| {
+          // TODO: Consider allowing percentage here
+          self.get_ident(ident, ChannelType::Number).map(|v| Calc::<f32>::Number(v))
+        }) {
+          Ok(Calc::Number(v)) => Ok(v),
+          _ => Err(input.new_custom_error(ParserError::InvalidValue)),
+        }
+      }) {
+        dbg!("Calc:parse_with Ok", &value);
+        return Ok(NumberOrPercentage::Number { value });
+      }
+
+      dbg!("Error in relative parse_number_or_percentage");
+      Err(input.new_error_for_next_token())
+    } else {
+      if let Ok(value) =
+        input.try_parse(|input| self.parse_ident(input, ChannelType::Percentage | ChannelType::Number))
+      {
+        dbg!("parse_ident Ok", &value);
+        return Ok(NumberOrPercentage::Percentage { unit_value: value });
+      }
+
+      if let Ok(value) =
+        input.try_parse(|input| self.parse_calc(input, ChannelType::Percentage | ChannelType::Number))
+      {
+        dbg!("parse_calc Ok", &value);
+        return Ok(NumberOrPercentage::Number { value });
+        // return Ok(NumberOrPercentage::Percentage { unit_value: value });
+      }
+
+      if let Ok(value) = input.try_parse(|input| -> Result<Percentage, ParseError<'i, ParserError<'i>>> {
+        match Calc::parse_with(input, |ident| {
+          self
+            .get_ident(ident, ChannelType::Percentage | ChannelType::Number)
+            .map(|v| Calc::Value(Box::new(Percentage(v))))
+        }) {
+          Ok(Calc::Value(v)) => Ok(*v),
+          _ => Err(input.new_custom_error(ParserError::InvalidValue)),
+        }
+      }) {
+        dbg!("Calc:parse_with Ok", &value);
+        return Ok(NumberOrPercentage::Percentage { unit_value: value.0 });
+      }
+
+      Err(input.new_error_for_next_token())
+    }
   }
 }
 
@@ -795,6 +847,9 @@ impl<'i> ColorComponentParser<'i> for ComponentParser {
     }
   }
 
+  // TODO: parse_number_or_percentage calls out to from.parse_number_or_percentage
+  // However, that might not be what we want! We might want to parse_number internally,
+  // e.g. in relative color syntax (at least for lab/lch/oklab/oklch for this PR)
   fn parse_number_or_percentage<'t>(
     &self,
     input: &mut Parser<'i, 't>,
@@ -806,8 +861,10 @@ impl<'i> ColorComponentParser<'i> for ComponentParser {
     }
 
     if let Ok(value) = input.try_parse(CSSNumber::parse) {
+      dbg!(&value);
       Ok(NumberOrPercentage::Number { value })
     } else if let Ok(value) = input.try_parse(Percentage::parse) {
+      dbg!(&value);
       Ok(NumberOrPercentage::Percentage { unit_value: value.0 })
     } else if self.allow_none {
       input.expect_ident_matching("none")?;
@@ -841,7 +898,7 @@ fn parse_color_function<'i, 't>(input: &mut Parser<'i, 't>) -> Result<CssColor, 
       Ok(CssColor::LAB(Box::new(lab)))
     },
     "oklch" => {
-      let (l, c, h, alpha) = parse_oklch::<OKLAB>(input, &mut parser)?;
+      let (l, c, h, alpha) = parse_oklch::<OKLCH>(input, &mut parser)?;
       let lab = LABColor::OKLCH(OKLCH { l, c, h, alpha });
       Ok(CssColor::LAB(Box::new(lab)))
     },
@@ -992,6 +1049,8 @@ fn parse_oklch<'i, 't, T: From<CssColor> + ColorSpace>(
 
     Ok((l, c, h, alpha))
   })?;
+
+  println!("{res:?}");
 
   Ok(res)
 }
@@ -1197,11 +1256,9 @@ where
 {
   dest.write_str(name)?;
   dest.write_char('(')?;
-  if a.is_nan() {
-    dest.write_str("none")?;
-  } else {
-    Percentage(a).to_css(dest)?;
-  }
+  // Write out the first component as a number, instead of percentage from the previous version
+  // TODO(fpapado): This could be split into another PR, probably
+  write_component(a, dest)?;
   dest.write_char(' ')?;
   write_component(b, dest)?;
   dest.write_char(' ')?;
@@ -1654,7 +1711,7 @@ impl From<LAB> for XYZd50 {
     const E: f32 = 216.0 / 24389.0; // 6^3/29^3
 
     let lab = lab.resolve_missing();
-    let l = lab.l * 100.0;
+    let l = lab.l;
     let a = lab.a;
     let b = lab.b;
 
@@ -1913,7 +1970,7 @@ impl From<XYZd50> for LAB {
 
     let f2 = if z > E { z.cbrt() } else { (K * z + 16.0) / 116.0 };
 
-    let l = ((116.0 * f1) - 16.0) / 100.0;
+    let l = (116.0 * f1) - 16.0;
     let a = 500.0 * (f0 - f1);
     let b = 200.0 * (f1 - f2);
     LAB {
